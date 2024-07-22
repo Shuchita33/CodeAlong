@@ -1,6 +1,7 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import Auth from './components/Form/Auth';
 import Playground from './components/PlayGround/Playground';
+import Home from './components/MyHome/Home';
 function App() {
 
   return (
@@ -8,6 +9,7 @@ function App() {
       <Routes>
          <Route path='/' element={<Auth />} />     
          <Route path='/playground' element={<Playground />} />  
+         <Route path='/home' element={<Home />} /> 
       </Routes>
     </BrowserRouter>
   )

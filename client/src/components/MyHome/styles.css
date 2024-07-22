@@ -1,0 +1,148 @@
+.home{
+    padding: 3vh;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #989898;
+    margin-bottom: 1rem;
+}
+
+.heading {
+    font-size: 1.75rem; 
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.heading span {
+    font-weight: 700;
+}
+
+.add-button {
+    font-size: 1rem;
+    border-radius: 30px;
+    color: black;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    cursor: pointer;
+}
+
+.add-button span {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.folder-card {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 0 4px 0px #ccc;
+}
+
+.f-header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #989898;
+    margin-bottom: 1rem;
+}
+
+.f-heading {
+    font-size: 1.25rem; 
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.f-heading span {
+    font-weight: 700;
+}
+
+.folder-icons {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    cursor: pointer;
+}
+
+.f-add-button {
+    font-size: 1rem;
+    border-radius: 30px;
+    color: black;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    cursor: pointer;
+}
+
+.f-add-button span {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.ws-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.card {
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 8px;
+    box-shadow: 0 0 4px 0px #ccc;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    background-color: #fff;
+    height: 10vh;
+}
+
+.card:hover {
+    box-shadow: 0 0 8px 0px #bbb;
+}
+
+.card-container {
+    display: flex;
+    align-items: center;
+}
+
+.card-content {
+    margin-left: 1rem;
+}
+
+.logo {
+    width: 70px;
+    margin-right: 1rem;
+}
+
+@media (max-width: 425px) {
+    .logo {
+        width: 50px;
+        margin-right: 0.5rem;
+    }
+}
+
+.folder-icons {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    cursor: pointer;
+}
+
+.folder-icons svg {
+    font-size: 1.5rem;
+    color: #333;
+}
