@@ -1,9 +1,17 @@
 .home{
     padding: 3vh;
+    background:  var(--bgpage);
+    height:fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .header {
+    color: white;
     display: flex;
+    width: 100%;
     align-items: center;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -27,7 +35,7 @@
 .add-button {
     font-size: 1rem;
     border-radius: 30px;
-    color: black;
+    color: white;
     display: flex;
     align-items: center;
     gap: 0.25rem;
@@ -40,11 +48,13 @@
 }
 
 .folder-card {
-    margin-bottom: 1rem;
+    width: 80%;;
+    background: var(--btnlight);
+    margin-bottom: 1.5rem;
     padding: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 0 4px 0px #ccc;
+    border: 1px solid;
+    border-radius: 1vh;
+
 }
 
 .f-header {
@@ -52,13 +62,12 @@
     align-items: center;
     flex-wrap: wrap;
     justify-content: space-between;
-    padding: 0.75rem 0;
     border-bottom: 1px solid #989898;
     margin-bottom: 1rem;
 }
 
 .f-heading {
-    font-size: 1.25rem; 
+    font-size: 1rem; 
     font-weight: 400;
     display: flex;
     align-items: center;
@@ -74,6 +83,10 @@
     align-items: center;
     gap: 0.7rem;
     cursor: pointer;
+}
+
+.folder-icons svg{
+    height: 3vh; width: 3vh;
 }
 
 .f-add-button {
@@ -95,18 +108,19 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
+    
 }
 
 .card {
-    padding: 0.5rem;
+    background: var(--card);
+    padding: 0.25rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
     border-radius: 8px;
-    box-shadow: 0 0 4px 0px #ccc;
+    box-shadow: 0 0 1px 0px #ccc;
     cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    background-color: #fff;
+    transition: all 0.2s ease-in-out; 
     height: 10vh;
 }
 
@@ -124,7 +138,7 @@
 }
 
 .logo {
-    width: 70px;
+    width: 5vh; height: 5vh;
     margin-right: 1rem;
 }
 
