@@ -2,7 +2,7 @@
     background:  var(--bgpage);
 }
 
-.home{
+.home{ 
     padding: 3vh;  
     display: flex;
     flex-direction: column;

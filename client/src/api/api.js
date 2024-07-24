@@ -14,4 +14,6 @@ API.interceptors.request.use((req)=>{
 export const signIn=(formData)=>API.post('/user/signin',formData);
 export const signUp=(formData)=>API.post('/user/signup',formData);
 
+export const getData=(id)=>API.get(`/user/${id}/workspaces`);
+
 export default API;

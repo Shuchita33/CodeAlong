@@ -5,11 +5,18 @@ import { BiEditAlt } from 'react-icons/bi'
 import { FcOpenedFolder } from 'react-icons/fc'
 import logo from '../../assets/logoCode.png';
 import Modal from './Modal';
+import {getData} from '../../api/api';
 
 const Home = () => {
     const [openModal, setOpenModal] = useState({ state: false});
+    const user=JSON.parse(localStorage.getItem('profile'));
+    const userId=user?.result?._id;
     const [m,setM]=useState(1);
-    
+
+    const getList=async()=>{
+        const list=await getData(userId);
+        console.log(list);
+    }
     const ws=[
         {
             title:"My ws",
@@ -64,7 +71,7 @@ const Home = () => {
         }
         
     ]
-
+    getList();
   return (
     <div className='box'>
     <div className="home">
