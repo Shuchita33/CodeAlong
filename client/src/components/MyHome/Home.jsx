@@ -1,11 +1,15 @@
-import React, {useContext} from 'react';
+import React, {useState} from 'react';
 import './styles.css';
 import { IoTrashOutline } from 'react-icons/io5'
 import { BiEditAlt } from 'react-icons/bi'
 import { FcOpenedFolder } from 'react-icons/fc'
 import logo from '../../assets/logoCode.png';
+import Modal from './Modal';
 
 const Home = () => {
+    const [openModal, setOpenModal] = useState({ state: false});
+    const [m,setM]=useState(1);
+    
     const ws=[
         {
             title:"My ws",
@@ -22,7 +26,7 @@ const Home = () => {
                     title:'code1',
                     language:'JS'
                 },
-              ]
+            ]
         },
         {
             title:"My ws",
@@ -39,7 +43,7 @@ const Home = () => {
                     title:'code1',
                     language:'JS'
                 },
-              ]
+            ]
         },
         {
             title:"My ws",
@@ -56,17 +60,22 @@ const Home = () => {
                     title:'code1',
                     language:'JS'
                 },
-              ]
+            ]
         }
+        
     ]
 
   return (
-    <div class="home">
-        <div class="header">
-            <h3 class="heading">
+    <div className='box'>
+    <div className="home">
+        <div className="header">
+            <h3 className="heading">
                 My <span> Folders</span>
             </h3>
-            <div class="add-button"> <span>+</span> New Folder</div>
+            <div className="add-button" 
+                onClick={() => {setM(1); setOpenModal({ state: true})}}
+            > <span>+</span> New Folder</div>
+            
         </div>
         {
             ws.map((ele)=>(
@@ -77,8 +86,9 @@ const Home = () => {
                         </h3>
                         <div className="folder-icons">
                             <IoTrashOutline/>
-                            <BiEditAlt/>
+                            <BiEditAlt onClick={() => {setM(4); setOpenModal({ state: true})}}/> 
                             <div className="f-add-button"
+                                onClick={() => {setM(2); setOpenModal({ state: true})}}
                             ><span>+</span> New Workspace </div>
                         </div>
                     </div>
@@ -93,17 +103,23 @@ const Home = () => {
                                     </div>
                                 </div>
                                 <div className="folder-icons">
-                                        <IoTrashOutline/>
-                                        <BiEditAlt/>
+                                    <IoTrashOutline/>
+                                    <BiEditAlt onClick={() => {setM(5); setOpenModal({ state: true})}}/>                                
                                 </div>
                             </div>     
                     ))} 
                     </div>             
                 </div>
             ))
-        }          
+        }     
+        {openModal.state && (
+                <Modal
+                  openModal={m}
+                  setOpenModal={setOpenModal}
+                />
+              )}     
     </div>                        
-
+    </div>
   )
 }
 
