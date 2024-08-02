@@ -1,10 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { IoCloseSharp } from 'react-icons/io5';
 import { FcOk } from 'react-icons/fc';
-import {getData,addData} from '../../api/api';
+import {getData,addData,updateWorkspaceName} from '../../api/api';
 
 
-const Model = ({ openModal, setOpenModal }) => {
+const Model = ({ openModal, setOpenModal, wsId, getLists }) => {
   const user=JSON.parse(localStorage.getItem('profile'));
   const userId=user?.result?._id;
   const [msg, setMsg] = useState('');
@@ -17,43 +17,45 @@ const Model = ({ openModal, setOpenModal }) => {
     setEnteredVal(e.target.value);
   };
 
-  useEffect(()=>{
+  useEffect(()=>{   
     const getList=async()=>{
-        const list=await getData(userId);
-        //console.log(list.data);
-        setFolders(list.data);
+      const list=await getData(userId);
+      //console.log(list.data);
+      setFolders(list.data);
     }
     getList();
-  },[userId,folders])
+  },[])
 
   const addFolder = async(folderName) => { 
-    console.log(folderName);
+    //console.log(folderName);
     const newState= {
       title: folderName,
       cards: []
     }
-    console.log(newState);
+    //console.log(newState);
     const res=await addData(userId,newState);
-    //console.log(res);   
+    getLists();   
   }
+  const updateFolder=async(userId, wsId, enteredVal)=>{
+    //console.log(userId,wsId,enteredVal);
+    await updateWorkspaceName(userId, wsId, enteredVal);
+    getLists();
+  }
+
   const handleSubmit = () => {
     const m = openModal;
     switch (m) {
       case 1:
         // console.log('Enter Foldername',enteredVal);
         addFolder(enteredVal);
-  
         break;
       case 2:
         console.log('Enter Workspace name',enteredVal);
         break;
       case 3:
-        console.log('Enter Card name',enteredVal);
+        updateFolder(userId, wsId, enteredVal);
         break;
       case 4:
-        console.log('Edit Foldername',enteredVal);
-        break;
-      case 5:
         console.log('Workspace name',enteredVal);
         break;
       default:
@@ -74,12 +76,9 @@ const Model = ({ openModal, setOpenModal }) => {
         setMsg('Enter Workspace name');
         break;
       case 3:
-        setMsg('Enter Card name');
-        break;
-      case 4:
         setMsg('Edit Foldername');
         break;
-      case 5:
+      case 4:
         setMsg('Edit Workspace name');
         break;
       default:

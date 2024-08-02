@@ -13,25 +13,31 @@ const Home = () => {
     const userId=user?.result?._id;
     const [m,setM]=useState(1);
     const [allWs,setWs]=useState([]);
+    const [currentWsId, setCurrentWsId] = useState(null);
 
+    const getList=async()=>{
+        const list=await getData(userId);
+        //console.log(list.data);
+        setWs(list.data);
+    }
     useEffect(()=>{
-        const getList=async()=>{
-            const list=await getData(userId);
-            console.log(list.data);
-            setWs(list.data);
-        }
         getList();
-    },[userId,allWs])
+    },[])
     
     const deleteWs=async(wsId)=>{
-        const confirmDelete = window.confirm("Are you sure you want to delete this workspace?");
+        const confirmDelete = window.confirm("Are you sure you want to delete this folder?");
         if (!confirmDelete) return;
         await deleteWorkspace(userId,wsId);
         console.log(userId,wsId);
-        alert('Deleted workspace')
-       
+        alert('Deleted Folder');
+        getList();
     }
-    
+    const editWsname = (wsId) => {
+        setCurrentWsId(wsId);
+        setM(3);
+        setOpenModal({ state: true });
+        getList();
+      };
   return (
     <div className="home">
         <div className="header">
@@ -51,7 +57,7 @@ const Home = () => {
                         </h3>
                         <div className="folder-icons">
                             <IoTrashOutline onClick={()=>deleteWs(ele._id)}/>
-                            <BiEditAlt onClick={() => {setM(4); setOpenModal({ state: true})}}/> 
+                            <BiEditAlt onClick={() => editWsname(ele._id)}/> 
                             <div className="f-add-button"
                                 onClick={() => {setM(2); setOpenModal({ state: true})}}
                             ><span>+</span> New Workspace </div>
@@ -69,7 +75,7 @@ const Home = () => {
                                 </div>
                                 <div className="folder-icons">
                                     <IoTrashOutline/>
-                                    <BiEditAlt onClick={() => {setM(5); setOpenModal({ state: true})}}/>                                
+                                    <BiEditAlt onClick={() => {setM(4); setOpenModal({ state: true})}}/>                                
                                 </div>
                             </div>     
                     ))} 
@@ -81,6 +87,8 @@ const Home = () => {
                 <Modal
                   openModal={m}
                   setOpenModal={setOpenModal}
+                  wsId={currentWsId}
+                  getLists={getList}
                 />
               )}     
     </div>                        
