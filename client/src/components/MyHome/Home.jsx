@@ -1,98 +1,56 @@
-import React, {useState} from 'react';
+import React, {useEffect,useRef, useState} from 'react';
 import './styles.css';
 import { IoTrashOutline } from 'react-icons/io5'
 import { BiEditAlt } from 'react-icons/bi'
 import { FcOpenedFolder } from 'react-icons/fc'
 import logo from '../../assets/logoCode.png';
 import Modal from './Modal';
-import {getData} from '../../api/api';
+import {getData,deleteWorkspace} from '../../api/api';
 
 const Home = () => {
     const [openModal, setOpenModal] = useState({ state: false});
     const user=JSON.parse(localStorage.getItem('profile'));
     const userId=user?.result?._id;
     const [m,setM]=useState(1);
+    const [allWs,setWs]=useState([]);
 
-    const getList=async()=>{
-        const list=await getData(userId);
-        console.log(list);
-    }
-    const ws=[
-        {
-            title:"My ws",
-            cards:[
-                {
-                    title:'code1',
-                    language:'cpp'
-                },
-                {
-                    title:'code1',
-                    language:'python'
-                },
-                {
-                    title:'code1',
-                    language:'JS'
-                },
-            ]
-        },
-        {
-            title:"My ws",
-            cards:[
-                {
-                    title:'code1',
-                    language:'cpp'
-                },
-                {
-                    title:'code1',
-                    language:'python'
-                },
-                {
-                    title:'code1',
-                    language:'JS'
-                },
-            ]
-        },
-        {
-            title:"My ws",
-            cards:[
-                {
-                    title:'code1',
-                    language:'cpp'
-                },
-                {
-                    title:'code1',
-                    language:'python'
-                },
-                {
-                    title:'code1',
-                    language:'JS'
-                },
-            ]
+    useEffect(()=>{
+        const getList=async()=>{
+            const list=await getData(userId);
+            console.log(list.data);
+            setWs(list.data);
         }
-        
-    ]
-    getList();
+        getList();
+    },[userId,allWs])
+    
+    const deleteWs=async(wsId)=>{
+        const confirmDelete = window.confirm("Are you sure you want to delete this workspace?");
+        if (!confirmDelete) return;
+        await deleteWorkspace(userId,wsId);
+        console.log(userId,wsId);
+        alert('Deleted workspace')
+       
+    }
+    
   return (
-    <div className='box'>
     <div className="home">
         <div className="header">
-            <h3 className="heading">
-                My <span> Folders</span>
-            </h3>
-            <div className="add-button" 
-                onClick={() => {setM(1); setOpenModal({ state: true})}}
-            > <span>+</span> New Folder</div>
-            
+                <h3 className="heading">
+                    My <span> Folders</span>
+                </h3>
+                <div className="add-button" 
+                    onClick={() => {setM(1); setOpenModal({ state: true})}}
+                > <span>+</span> New Folder</div>        
         </div>
         {
-            ws.map((ele)=>(
-                <div className='folder-card'>
+            allWs.map((ele)=>(
+                <div className='folder-card' key={ele._id}>
                     <div className="f-header">
                         <h3 className="f-heading">
                             <FcOpenedFolder/>{ele.title}
                         </h3>
                         <div className="folder-icons">
-                            <IoTrashOutline/>
+                            <IoTrashOutline onClick={()=>deleteWs(ele._id)}/>
                             <BiEditAlt onClick={() => {setM(4); setOpenModal({ state: true})}}/> 
                             <div className="f-add-button"
                                 onClick={() => {setM(2); setOpenModal({ state: true})}}
@@ -126,7 +84,6 @@ const Home = () => {
                 />
               )}     
     </div>                        
-    </div>
   )
 }
 

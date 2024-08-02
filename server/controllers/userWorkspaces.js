@@ -31,5 +31,19 @@ export const addUserWorkspace = async (req, res) => {
     res.status(500).json({ message: 'Server error', error });
   }
 };
-
+export const deleteWorkspace = async (req, res) => {
+  const { id, wsId} = req.params;
+  //console.log(id,wsId)
+  try {
+      const user = await User.findById(id);
+      if (!user) {
+          return res.status(404).json({ message: 'User not found' });
+      }
+      user.ws = user.ws.filter(workspace => workspace._id.toString() !== wsId);
+      await user.save();
+      res.status(200).json({ message: 'Workspace deleted successfully' });
+  } catch (error) {
+      res.status(500).json({ message: 'Failed to delete workspace', error });
+  }
+};
 export default getUserWorkspaces;

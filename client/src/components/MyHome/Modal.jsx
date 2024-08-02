@@ -1,20 +1,48 @@
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { IoCloseSharp } from 'react-icons/io5';
 import { FcOk } from 'react-icons/fc';
+import {getData,addData} from '../../api/api';
+
 
 const Model = ({ openModal, setOpenModal }) => {
+  const user=JSON.parse(localStorage.getItem('profile'));
+  const userId=user?.result?._id;
   const [msg, setMsg] = useState('');
   const [enteredVal, setEnteredVal] = useState('');
+  const [folders,setFolders]=useState([]);
+
+  const inputRef = useRef(null);
 
   const handleChange = (e) => {
     setEnteredVal(e.target.value);
   };
 
+  useEffect(()=>{
+    const getList=async()=>{
+        const list=await getData(userId);
+        //console.log(list.data);
+        setFolders(list.data);
+    }
+    getList();
+  },[userId,folders])
+
+  const addFolder = async(folderName) => { 
+    console.log(folderName);
+    const newState= {
+      title: folderName,
+      cards: []
+    }
+    console.log(newState);
+    const res=await addData(userId,newState);
+    //console.log(res);   
+  }
   const handleSubmit = () => {
     const m = openModal;
     switch (m) {
       case 1:
-        console.log('Enter Foldername',enteredVal);
+        // console.log('Enter Foldername',enteredVal);
+        addFolder(enteredVal);
+  
         break;
       case 2:
         console.log('Enter Workspace name',enteredVal);
@@ -73,6 +101,7 @@ const Model = ({ openModal, setOpenModal }) => {
           <input
             className='input'
             type="text"
+            ref={inputRef}
             value={enteredVal}
             onChange={handleChange}
           />

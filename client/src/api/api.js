@@ -15,5 +15,7 @@ export const signIn=(formData)=>API.post('/user/signin',formData);
 export const signUp=(formData)=>API.post('/user/signup',formData);
 
 export const getData=(id)=>API.get(`/user/${id}/workspaces`);
+export const addData=(id,newWs)=>API.post(`/user/${id}/workspaces`,newWs);
+export const deleteWorkspace = (userId, wsId) => API.delete(`/user/${userId}/workspaces/${wsId}`);
 
 export default API;
