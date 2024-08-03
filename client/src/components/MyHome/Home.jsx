@@ -5,7 +5,7 @@ import { BiEditAlt } from 'react-icons/bi'
 import { FcOpenedFolder } from 'react-icons/fc'
 import logo from '../../assets/logoCode.png';
 import Modal from './Modal';
-import {getData,deleteWorkspace} from '../../api/api';
+import {getData,deleteWorkspace,deleteCardFromWorkspace} from '../../api/api';
 
 const Home = () => {
     const [openModal, setOpenModal] = useState({ state: false});
@@ -53,6 +53,13 @@ const Home = () => {
         setOpenModal({ state: true });
     };
 
+    const deleteCard = async (wsId, cardId) => {
+        console.log(wsId,cardId)
+        const confirmDelete = window.confirm("Are you sure you want to delete this card?");
+        if (!confirmDelete) return;
+        await deleteCardFromWorkspace(userId, wsId, cardId);
+        getList();
+    };
   return (
     <div className="home">
         <div className="header">
@@ -78,9 +85,9 @@ const Home = () => {
                             ><span>+</span> New Workspace </div>
                         </div>
                     </div>
-                    <div className="ws-cards">
+                    <div className="ws-cards" >
                     { ele.cards.map((card)=>(                       
-                            <div className="card">
+                            <div className="card" key={card._id}>
                                 <div className="card-container">
                                     <img className="logo" src={logo} alt="Logo" />
                                     <div className="card-content">
@@ -89,7 +96,7 @@ const Home = () => {
                                     </div>
                                 </div>
                                 <div className="folder-icons">
-                                    <IoTrashOutline/>
+                                    <IoTrashOutline onClick={() => deleteCard(ele._id, card._id)}/>
                                     <BiEditAlt onClick={() => editCardName(ele._id, card._id)}/>                                
                                 </div>
                             </div>     

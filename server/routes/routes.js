@@ -1,6 +1,6 @@
 import express from 'express';
 import { signup,signin} from '../controllers/user.js';
-import {getUserWorkspaces,addUserWorkspace,deleteWorkspace,updateWorkspaceName,addCardToWorkspace,updateCardName} from '../controllers/userWorkspaces.js';
+import {getUserWorkspaces, addUserWorkspace, deleteWorkspace, updateWorkspaceName, addCardToWorkspace, updateCardName, deleteCardFromWorkspace} from '../controllers/userWorkspaces.js';
 
 const userRouter=express.Router();
 
@@ -13,4 +13,6 @@ userRouter.delete('/:id/workspaces/:wsId', deleteWorkspace);
 userRouter.patch('/:id/workspaces/:wsId', updateWorkspaceName)
 userRouter.patch('/:id/workspaces/:wsId/addCard', addCardToWorkspace);
 userRouter.patch('/:id/workspaces/:wsId/cards/:cardId', updateCardName);
+userRouter.delete('/:id/workspaces/:wsId/cards/:cardId', deleteCardFromWorkspace);
+
 export default userRouter;

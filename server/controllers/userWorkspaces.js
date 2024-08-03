@@ -109,4 +109,25 @@ export const updateCardName = async (req, res) => {
       res.status(500).json({ message: error.message });
   }
 };
+export const deleteCardFromWorkspace = async (req, res) => {
+  const { id, wsId, cardId } = req.params;
+
+  try {
+      const user = await User.findById(id);
+      if (!user) return res.status(404).send('User not found');
+
+      const workspace = user.ws.id(wsId);
+      if (!workspace) return res.status(404).send('Workspace not found');
+
+      const card = workspace.cards.id(cardId);
+      if (!card) return res.status(404).send('Card not found');
+
+      workspace.cards.pull(cardId);
+
+      await user.save();
+      res.status(200).json(user);
+  } catch (error) {
+      res.status(500).json({ message: error.message });
+  }
+};
 export default getUserWorkspaces;
