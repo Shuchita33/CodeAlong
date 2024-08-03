@@ -38,6 +38,12 @@ const Home = () => {
         setOpenModal({ state: true });
         getList();
       };
+
+    const addCard = (wsId) => {
+        setCurrentWsId(wsId);
+        setM(2);
+        setOpenModal({ state: true });
+    };
   return (
     <div className="home">
         <div className="header">
@@ -59,7 +65,7 @@ const Home = () => {
                             <IoTrashOutline onClick={()=>deleteWs(ele._id)}/>
                             <BiEditAlt onClick={() => editWsname(ele._id)}/> 
                             <div className="f-add-button"
-                                onClick={() => {setM(2); setOpenModal({ state: true})}}
+                                onClick={() => addCard(ele._id)}
                             ><span>+</span> New Workspace </div>
                         </div>
                     </div>

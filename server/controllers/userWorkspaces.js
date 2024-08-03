@@ -66,4 +66,25 @@ export const updateWorkspaceName = async (req, res) => {
       res.status(500).json({ message: "Something went wrong", error });
   }
 };
+export const addCardToWorkspace = async (req, res) => {
+  const { id, wsId } = req.params;
+  const { title, language } = req.body;
+
+  try {
+      const user = await User.findById(id);
+
+      if (!user) return res.status(404).json({ message: "User not found" });
+
+      const workspace = user.ws.id(wsId);
+      if (!workspace) return res.status(404).json({ message: "Workspace not found" });
+
+      const newCard = { title, language };
+      workspace.cards.push(newCard);
+      await user.save();
+
+      res.status(200).json(workspace.cards);
+  } catch (error) {
+      res.status(409).json({ message: error.message });
+  }
+};
 export default getUserWorkspaces;

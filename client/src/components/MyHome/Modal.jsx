@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { IoCloseSharp } from 'react-icons/io5';
 import { FcOk } from 'react-icons/fc';
-import {getData,addData,updateWorkspaceName} from '../../api/api';
+import {getData,addData,updateWorkspaceName,addCardToWorkspace} from '../../api/api';
 
 
 const Model = ({ openModal, setOpenModal, wsId, getLists }) => {
@@ -9,13 +9,19 @@ const Model = ({ openModal, setOpenModal, wsId, getLists }) => {
   const userId=user?.result?._id;
   const [msg, setMsg] = useState('');
   const [enteredVal, setEnteredVal] = useState('');
+  const [enteredLang,setLang]=useState('');
   const [folders,setFolders]=useState([]);
 
   const inputRef = useRef(null);
 
-  const handleChange = (e) => {
-    setEnteredVal(e.target.value);
+  const handleChange = (event, field) => {
+    if (field === 'title') {
+      setEnteredVal(event.target.value);
+    } else if (field === 'language') {
+      setLang(event.target.value);
+    }
   };
+
 
   useEffect(()=>{   
     const getList=async()=>{
@@ -42,6 +48,16 @@ const Model = ({ openModal, setOpenModal, wsId, getLists }) => {
     getLists();
   }
 
+  const addCard = async (wsId, cardTitle, cardLanguage) => {
+    const newCard = {
+        title: cardTitle,
+          language: cardLanguage
+      };
+      console.log(newCard,userId,wsId);
+      await addCardToWorkspace(userId, wsId, newCard);
+      getLists();
+  };
+
   const handleSubmit = () => {
     const m = openModal;
     switch (m) {
@@ -50,7 +66,8 @@ const Model = ({ openModal, setOpenModal, wsId, getLists }) => {
         addFolder(enteredVal);
         break;
       case 2:
-        console.log('Enter Workspace name',enteredVal);
+        // console.log('Enter Workspace name',enteredVal,enteredLang);
+        addCard(wsId,enteredVal,enteredLang);
         break;
       case 3:
         updateFolder(userId, wsId, enteredVal);
@@ -99,11 +116,23 @@ const Model = ({ openModal, setOpenModal, wsId, getLists }) => {
         <div className='input-container'>
           <input
             className='input'
+            placeholder='title'
             type="text"
             ref={inputRef}
             value={enteredVal}
-            onChange={handleChange}
+            onChange={(event) => handleChange(event, 'title')}
           />
+          {openModal==2 && (
+            <input
+            className='input'
+            placeholder='language'
+            type="text"
+            ref={inputRef}
+            value={enteredLang}
+            onChange={(event) => handleChange(event, 'language')}
+          />
+          )}
+
           <FcOk style={{ height: '4vh', width: '4vh', cursor: 'pointer' }} onClick={handleSubmit} />
         </div>
       </div>
