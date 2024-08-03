@@ -1,10 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { IoCloseSharp } from 'react-icons/io5';
 import { FcOk } from 'react-icons/fc';
-import {getData,addData,updateWorkspaceName,addCardToWorkspace} from '../../api/api';
+import {getData,addData,updateWorkspaceName,addCardToWorkspace,updateCardName} from '../../api/api';
 
 
-const Model = ({ openModal, setOpenModal, wsId, getLists }) => {
+const Model = ({ openModal, setOpenModal, wsId, cardId, getLists }) => {
   const user=JSON.parse(localStorage.getItem('profile'));
   const userId=user?.result?._id;
   const [msg, setMsg] = useState('');
@@ -42,7 +42,7 @@ const Model = ({ openModal, setOpenModal, wsId, getLists }) => {
     const res=await addData(userId,newState);
     getLists();   
   }
-  const updateFolder=async(userId, wsId, enteredVal)=>{
+  const updateFolder=async(wsId, enteredVal)=>{
     //console.log(userId,wsId,enteredVal);
     await updateWorkspaceName(userId, wsId, enteredVal);
     getLists();
@@ -57,6 +57,13 @@ const Model = ({ openModal, setOpenModal, wsId, getLists }) => {
       await addCardToWorkspace(userId, wsId, newCard);
       getLists();
   };
+  
+  const editCardname=async(wsId, cardId, enteredVal)=>{
+    console.log(wsId,cardId,enteredVal)
+    const res=await updateCardName(userId, wsId, cardId, enteredVal)
+    console.log(res);
+    getLists();
+  }
 
   const handleSubmit = () => {
     const m = openModal;
@@ -70,10 +77,11 @@ const Model = ({ openModal, setOpenModal, wsId, getLists }) => {
         addCard(wsId,enteredVal,enteredLang);
         break;
       case 3:
-        updateFolder(userId, wsId, enteredVal);
+        updateFolder(wsId, enteredVal);
         break;
       case 4:
-        console.log('Workspace name',enteredVal);
+        // console.log('Workspace name',enteredVal);
+        editCardname(wsId,cardId,enteredVal)
         break;
       default:
         console.log('');

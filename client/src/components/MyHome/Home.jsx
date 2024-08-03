@@ -14,6 +14,7 @@ const Home = () => {
     const [m,setM]=useState(1);
     const [allWs,setWs]=useState([]);
     const [currentWsId, setCurrentWsId] = useState(null);
+    const [currentCardId, setCurrentCardId] = useState(null);
 
     const getList=async()=>{
         const list=await getData(userId);
@@ -44,6 +45,14 @@ const Home = () => {
         setM(2);
         setOpenModal({ state: true });
     };
+
+    const editCardName = (wsId, cardId) => {
+        setCurrentWsId(wsId);
+        setCurrentCardId(cardId);
+        setM(4);
+        setOpenModal({ state: true });
+    };
+
   return (
     <div className="home">
         <div className="header">
@@ -81,7 +90,7 @@ const Home = () => {
                                 </div>
                                 <div className="folder-icons">
                                     <IoTrashOutline/>
-                                    <BiEditAlt onClick={() => {setM(4); setOpenModal({ state: true})}}/>                                
+                                    <BiEditAlt onClick={() => editCardName(ele._id, card._id)}/>                                
                                 </div>
                             </div>     
                     ))} 
@@ -90,10 +99,12 @@ const Home = () => {
             ))
         }     
         {openModal.state && (
+            //this is used to pass props from children to parent to update parent component upon updation caused by child component
                 <Modal
                   openModal={m}
                   setOpenModal={setOpenModal}
                   wsId={currentWsId}
+                  cardId={currentCardId}
                   getLists={getList}
                 />
               )}     

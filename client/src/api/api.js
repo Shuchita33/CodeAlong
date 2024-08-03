@@ -19,5 +19,6 @@ export const addData=(id,newWs)=>API.post(`/user/${id}/workspaces`,newWs);
 export const deleteWorkspace = (userId, wsId) => API.delete(`/user/${userId}/workspaces/${wsId}`);
 export const updateWorkspaceName = (userId, wsId, newName) => API.patch(`/user/${userId}/workspaces/${wsId}`, { title: newName });
 export const addCardToWorkspace = (userId, wsId, newCard) => API.patch(`/user/${userId}/workspaces/${wsId}/addCard`, newCard);
+export const updateCardName = (userId, wsId, cardId, newTitle) => API.patch(`/user/${userId}/workspaces/${wsId}/cards/${cardId}`, { newTitle });
 
 export default API;
