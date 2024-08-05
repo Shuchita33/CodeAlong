@@ -1,4 +1,5 @@
-import React, {useEffect,useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 import './styles.css';
 import { IoTrashOutline } from 'react-icons/io5'
 import { BiEditAlt } from 'react-icons/bi'
@@ -8,6 +9,7 @@ import Modal from './Modal';
 import {getData,deleteWorkspace,deleteCardFromWorkspace} from '../../api/api';
 
 const Home = () => {
+    const navigate=useNavigate();
     const [openModal, setOpenModal] = useState({ state: false});
     const user=JSON.parse(localStorage.getItem('profile'));
     const userId=user?.result?._id;
@@ -87,7 +89,7 @@ const Home = () => {
                     </div>
                     <div className="ws-cards" >
                     { ele.cards.map((card)=>(                       
-                            <div className="card" key={card._id}>
+                            <div className="card" key={card._id} onClick={()=>navigate('/playground')}>
                                 <div className="card-container">
                                     <img className="logo" src={logo} alt="Logo" />
                                     <div className="card-content">
