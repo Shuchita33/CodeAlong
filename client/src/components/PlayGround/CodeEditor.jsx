@@ -11,6 +11,7 @@ const CodeEditor = ({fileId,folderId,defLang}) => {
 
    useEffect(() => {
     setLang(defLang);
+    setCode(fileExtension[defLang]?.defaultCode);
   }, [defLang]);
   
    const codeRef=useRef();
@@ -18,9 +19,34 @@ const CodeEditor = ({fileId,folderId,defLang}) => {
     fontSize:16,
    }
    const fileExtension={
-    cpp:'cpp', python:'py', java:'java', javascript:'js'
+    cpp:{
+        name:'cpp',
+        defaultCode: 
+        "#include <iostream>\n"
+        + "using namespace std;\n\n"
+        + "int main() {\n"
+        + '\tcout << "Hello World!";\n'
+        + "\treturn 0;\n"
+        + "}",
+    },
+    python:{
+        name:'py',
+        defaultCode: `print("Hello World!")`,
+    },
+    java:{
+        name:'java',
+        defaultCode: `public class Main {
+            public static void main(String[] args) {
+                System.out.println("Hello World!");
+            }
+}`,
+    }, 
+    javascript:{
+        name:'js',
+        defaultCode: `console.log("Hello World!");`,
+    }
    }
-   
+
    const onCodeChange=(newCode)=>{
     //console.log(newCode);
     codeRef.current=newCode;
@@ -28,6 +54,7 @@ const CodeEditor = ({fileId,folderId,defLang}) => {
    const onLangChange=(e)=>{
         const newLang=e.target.value;
         setLang(newLang);
+        setCode(fileExtension[newLang]?.defaultCode);
    }
    const onThemeChange=(e)=>{
         const newTheme=e.target.value;
@@ -65,7 +92,7 @@ const CodeEditor = ({fileId,folderId,defLang}) => {
         //create clickable link to download
         const link=document.createElement("a");
         link.href=url;
-        link.download=`code.${fileExtension[lang]}`;
+        link.download=`code.${fileExtension[lang].name}`;
         link.click();
   }
   return (
