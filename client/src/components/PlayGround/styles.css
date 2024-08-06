@@ -22,18 +22,23 @@
     padding: 5px 0;
 }
 .editor-container{
+    /* border: 5px solid var(--btnlight); */
     grid-row: 1/3;
+    width: 65vw;
 }
 .inputt-container,.output-container{
-    border: 5px solid var(--bgpage);
+    border-left: 5px solid white;
     display: flex; 
     flex-direction: column;
     align-items: start;
     flex-wrap: wrap;
-    gap: 0.75rem;
+}
+textarea{
+    width: 98%;
+    height: 65%;
 }
 .inputt-header,.output-header{
-    background-color: var(--formcolor);
+    background-color: var(--btnlight);
     height: 10%;
     width: 100%;
     display: flex;
@@ -65,7 +70,7 @@
 
 }
 .editor-header{
-    background-color: var(--formcolor);
+    background-color: var(--btnlight);
     display: flex;
     justify-content: space-between;
 }
@@ -92,8 +97,8 @@
     margin-left: 2vh;
 }
 .left button{
-    color: white;
-    background-color: var(--btnhover);
+    color: black;
+    background-color: var(--formcolor);
     cursor: pointer;
 }
 
@@ -103,7 +108,7 @@
 }
 
 .editor-footer{
-    background-color: var(--formcolor);
+    background-color: var(--btnlight);
     padding: 5px;
     display: flex;
     justify-content: space-between;
@@ -113,11 +118,25 @@
     display: flex;
     align-items: center;
     padding: 4px 10px;
-    background-color: var(--btnhover);
-    color: white;
+    background-color: var(--formcolor);
+    color:black;
     border: none;
     border-radius: 4px;
     gap: 10px;
     cursor: pointer;
     transition-duration: 8ms;
+}
+
+.editor-footer button:hover, .editor-footer label:hover{
+    background-color: #43535136;
+    color: black;
+}
+textarea{
+    width: 99%;
+    height:88% ;
+    resize: none;
+    background-color: var(--bgpage);
+    color:white;
+    outline: none;
+    border: 1px solid var(--btnlight);
 }

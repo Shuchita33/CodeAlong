@@ -39,7 +39,7 @@ const Auth = () => {
       const { data } = await api.signIn(formData);
       console.log(data);
       localStorage.setItem('profile', JSON.stringify(data));
-      navigate('/playground');
+      navigate('/home');
     } catch (error) {
       alert(error?.response?.data?.message);
     }
@@ -51,7 +51,7 @@ const Auth = () => {
       const { data } = await api.signUp(formData);
       console.log(data);
       localStorage.setItem('profile', JSON.stringify(data));
-      navigate('/playground');
+      navigate('/home');
     } catch (error) {
       alert(error?.response?.data?.message);
     }

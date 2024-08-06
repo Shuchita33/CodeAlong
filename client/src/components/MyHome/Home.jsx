@@ -89,7 +89,7 @@ const Home = () => {
                     </div>
                     <div className="ws-cards" >
                     { ele.cards.map((card)=>(                       
-                            <div className="card" key={card._id} onClick={()=>navigate('/playground')}>
+                            <div className="card" key={card._id} onClick={()=>navigate(`/playground/${ele._id}/${card._id}`)}>
                                 <div className="card-container">
                                     <img className="logo" src={logo} alt="Logo" />
                                     <div className="card-content">

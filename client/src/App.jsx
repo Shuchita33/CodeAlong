@@ -8,7 +8,7 @@ function App() {
     <BrowserRouter>
       <Routes>
          <Route path='/' element={<Auth />} />     
-         <Route path='/playground' element={<Playground />} />  
+         <Route path='/playground/:folderId/:fileId' element={<Playground />} />  
          <Route path='/home' element={<Home />} /> 
       </Routes>
     </BrowserRouter>

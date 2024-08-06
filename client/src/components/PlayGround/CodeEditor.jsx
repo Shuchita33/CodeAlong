@@ -1,13 +1,18 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { FaPencilAlt } from "react-icons/fa";
 import { BiFullscreen, BiImport,BiExport } from "react-icons/bi";
 import { VscRunAll } from "react-icons/vsc";
 import {Editor} from '@monaco-editor/react';
 
-const CodeEditor = () => {
+const CodeEditor = ({fileId,folderId,defLang}) => {
    const[code,setCode]=useState('');
-   const[theme,setTheme]=useState('');
-   const[lang,setLang]=useState('');
+   const [theme, setTheme] = useState('vs-dark');
+   const[lang,setLang]=useState(defLang);
+
+   useEffect(() => {
+    setLang(defLang);
+  }, [defLang]);
+  
    const codeRef=useRef();
    const editorOptions={
     fontSize:16,
@@ -15,7 +20,7 @@ const CodeEditor = () => {
    const fileExtension={
     cpp:'cpp', python:'py', java:'java', javascript:'js'
    }
-   console.log(lang,theme)
+   
    const onCodeChange=(newCode)=>{
     //console.log(newCode);
     codeRef.current=newCode;
@@ -84,16 +89,16 @@ const CodeEditor = () => {
                 </select>
             </div>
         </div>
-        <div className='editor-body'>
+       
             <Editor 
+                theme={theme}
                 height={'100%'}
                 language={lang}
-                theme='vs-dark'
                 options={editorOptions}
                 onChange={onCodeChange}
                 value={code}
             />
-        </div>
+       
         <div className='editor-footer'>
             <button><BiFullscreen/> FullScreen</button>
             <label htmlFor='import'><BiImport/> Import Code</label>
