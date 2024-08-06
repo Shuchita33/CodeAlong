@@ -134,6 +134,26 @@ export const deleteCardFromWorkspace = async (req, res) => {
   }
 };
 
+export const getCardDetails = async (req, res) => {
+  const { id, wsId, cardId } = req.params;
+
+  try {
+    const user = await User.findById(id);
+
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    const workspace = user.ws.id(wsId);
+    if (!workspace) return res.status(404).json({ message: 'Workspace not found' });
+
+    const card = workspace.cards.id(cardId);
+    if (!card) return res.status(404).json({ message: 'Card not found' });
+
+    res.status(200).json(card);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 export const updateCardCode = async (req, res) => {
   const { id, wsId, cardId } = req.params;
   const { newCode } = req.body;

@@ -1,21 +1,40 @@
 import React, { useRef, useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom';
 import { FaPencilAlt } from "react-icons/fa";
 import { BiFullscreen, BiImport,BiExport } from "react-icons/bi";
 import { VscRunAll } from "react-icons/vsc";
 import {Editor} from '@monaco-editor/react';
-import { updateCardCode,getData } from '../../api/api';
+import { updateCardCode,getCardDetails,getData} from '../../api/api';
 
-const CodeEditor = ({fileId,folderId,defLang}) => {
+const CodeEditor = () => {
    const user=JSON.parse(localStorage.getItem('profile'));
    const userId=user?.result?._id;
-   const[code,setCode]=useState('');
+
+   const [code,setCode]=useState('');
    const [theme, setTheme] = useState('vs-dark');
-   const[lang,setLang]=useState(defLang);
+   const [lang,setLang]=useState('');
+   const [defLang, setdefLang]=useState('');
+
+   const [isFullScreen, setIsFullScreen]=useState(false);
+
+   const params=useParams();
+   const {folderId,fileId}=params;
+   //console.log(folder,file);
+  
+   const getDefaultCode=async()=>{
+        const { data } = await getCardDetails(userId, folderId, fileId);
+        console.log(data);
+        setLang(data.language);
+        if (data.code === '') {
+        setCode(fileExtension[data.language]?.defaultCode);
+        } else {
+        setCode(data.code);
+        }
+  }
 
    useEffect(() => {
-    setLang(defLang);
-    setCode(fileExtension[defLang]?.defaultCode);
-  }, [defLang]);
+        getDefaultCode(); 
+   }, [fileId]);
   
    const codeRef=useRef();
    const editorOptions={
@@ -55,30 +74,32 @@ const CodeEditor = ({fileId,folderId,defLang}) => {
     codeRef.current=newCode;
    }
    const onLangChange=(e)=>{
-        const newLang=e.target.value;
+        const newLang = e.target.value;
         setLang(newLang);
+        if (code === '' || code === fileExtension[lang]?.defaultCode) {
         setCode(fileExtension[newLang]?.defaultCode);
+        }
    }
    const onThemeChange=(e)=>{
         const newTheme=e.target.value;
         setTheme(newTheme);
    }
    const importCode=(e)=>{
-    const file=e.target.files[0];
-    console.log(file)
-    const type=file.type.includes("text");
-    if(type){
-        const fileReader= new FileReader();
-        fileReader.readAsText(file);
-        fileReader.onload=function(value){
-            const importedCode=value.target.result;
-            setCode(importedCode);
-            codeRef.current=importedCode;
+        const file=e.target.files[0];
+        console.log(file)
+        const type=file.type.includes("text");
+        if(type){
+            const fileReader= new FileReader();
+            fileReader.readAsText(file);
+            fileReader.onload=function(value){
+                const importedCode=value.target.result;
+                setCode(importedCode);
+                codeRef.current=importedCode;
+            }
         }
-    }
-    else{
-        alert("Please choose program file")
-    }
+        else{
+            alert("Please choose program file")
+        }
   }
   const exportCode=()=>{
         const codeVal=codeRef.current?.trim();
@@ -99,16 +120,27 @@ const CodeEditor = ({fileId,folderId,defLang}) => {
         link.click();
   }
   const saveEditorCode=async()=>{
-    const newcode=codeRef.current;
-    console.log(userId,folderId,fileId,newcode);
-    const res=await updateCardCode(userId,folderId,fileId,newcode)
-    console.log(res);
-    const ne=await getData(userId);
-    console.log(ne.data);
+        const newcode=codeRef.current;
+        console.log(userId,folderId,fileId,newcode);
+        const res=await updateCardCode(userId,folderId,fileId,newcode)
+        console.log(res);
+        alert("Code saved successfully")
+        // const newdata=await getData(userId);
+        // console.log(newdata.data);
+  }
+  const fullScreen=()=>{
+        setIsFullScreen(!isFullScreen);
+  }
+  const styles={
+    fullScreen:{
+        position:'absolute',
+        top:0, left:0, right:0, bottom:0,
+        zIndex: 10
+    }
   }
 
   return (
-    <div className='editor'>
+    <div className='editor' style={isFullScreen ? styles.fullScreen : {}}>
         <div className='editor-header'>
             <div className='left'>
                 <b>Title</b>
@@ -127,8 +159,7 @@ const CodeEditor = ({fileId,folderId,defLang}) => {
                     <option value="vs-light">vs-light</option>
                 </select>
             </div>
-        </div>
-       
+        </div>    
             <Editor 
                 theme={theme}
                 height={'100%'}
@@ -136,10 +167,9 @@ const CodeEditor = ({fileId,folderId,defLang}) => {
                 options={editorOptions}
                 onChange={onCodeChange}
                 value={code}
-            />
-       
+            />      
         <div className='editor-footer'>
-            <button><BiFullscreen/> FullScreen</button>
+            <button onClick={fullScreen}><BiFullscreen/> {isFullScreen?"Minimise":"FullScreen"}</button>
             <label htmlFor='import'><BiImport/> Import Code</label>
             <input type='file' id='import' style={{display:'none'}} onChange={importCode}/>
             <button onClick={exportCode}><BiExport/> Export </button>

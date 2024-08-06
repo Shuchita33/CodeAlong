@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import './styles.css';
 import { BiArrowFromBottom, BiArrowToBottom } from "react-icons/bi";
 import CodeEditor from './CodeEditor';
-import {getData} from '../../api/api';
 
 const Playground = () => {
   const user=JSON.parse(localStorage.getItem('profile'));
@@ -12,29 +10,6 @@ const Playground = () => {
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
 
-  const [defLang, setdefLang]=useState('');
-
-  const params=useParams();
-  const {folderId,fileId}=params;
-  //console.log(folder,file);
-  
-  const getDefaultCode=async()=>{
-    const {data}=await getData(userId);
-    console.log(data)
-    data.forEach((folder)=>{
-      if(folder._id==folderId){
-        folder.cards.forEach((file)=>{
-          if(file._id==fileId){
-            setdefLang(file.language);
-          }
-        })
-      }
-    })
-  }
-  useEffect(()=>{
-    getDefaultCode();
-    console.log(defLang)
-  },[userId,defLang])
 
   const importInput = (e) => {
     const file = e.target.files[0];
@@ -69,7 +44,7 @@ const Playground = () => {
     <div className='playground-container'>
       <div className='content-container'>
         <div className='editor-container'>
-          <CodeEditor fileId={fileId} folderId={folderId} defLang={defLang}/>
+          <CodeEditor/>
         </div>
         <div className='inputt-container'>
           <div className='inputt-header'>
