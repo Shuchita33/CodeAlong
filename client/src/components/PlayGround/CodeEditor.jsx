@@ -3,8 +3,11 @@ import { FaPencilAlt } from "react-icons/fa";
 import { BiFullscreen, BiImport,BiExport } from "react-icons/bi";
 import { VscRunAll } from "react-icons/vsc";
 import {Editor} from '@monaco-editor/react';
+import { updateCardCode,getData } from '../../api/api';
 
 const CodeEditor = ({fileId,folderId,defLang}) => {
+   const user=JSON.parse(localStorage.getItem('profile'));
+   const userId=user?.result?._id;
    const[code,setCode]=useState('');
    const [theme, setTheme] = useState('vs-dark');
    const[lang,setLang]=useState(defLang);
@@ -95,13 +98,22 @@ const CodeEditor = ({fileId,folderId,defLang}) => {
         link.download=`code.${fileExtension[lang].name}`;
         link.click();
   }
+  const saveEditorCode=async()=>{
+    const newcode=codeRef.current;
+    console.log(userId,folderId,fileId,newcode);
+    const res=await updateCardCode(userId,folderId,fileId,newcode)
+    console.log(res);
+    const ne=await getData(userId);
+    console.log(ne.data);
+  }
+
   return (
     <div className='editor'>
         <div className='editor-header'>
             <div className='left'>
                 <b>Title</b>
                 <span className='icons'><FaPencilAlt/> </span>
-                <button>Save Code</button>
+                <button onClick={saveEditorCode}>Save Code</button>
             </div>
             <div className='right'>
                 <select onChange={onLangChange} value={lang}>

@@ -59,7 +59,7 @@ const Model = ({ openModal, setOpenModal, wsId, cardId, getLists }) => {
   };
   
   const editCardname=async(wsId, cardId, enteredVal)=>{
-    console.log(wsId,cardId,enteredVal)
+    //console.log(wsId,cardId,enteredVal)
     const res=await updateCardName(userId, wsId, cardId, enteredVal)
     console.log(res);
     getLists();

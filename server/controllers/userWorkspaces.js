@@ -77,8 +77,11 @@ export const addCardToWorkspace = async (req, res) => {
 
       const workspace = user.ws.id(wsId);
       if (!workspace) return res.status(404).json({ message: "Workspace not found" });
-
-      const newCard = { title, language };
+      
+      const newCard = {language };
+      if (title) {
+        newCard.title = title;
+      }
       workspace.cards.push(newCard);
       await user.save();
 
@@ -129,5 +132,29 @@ export const deleteCardFromWorkspace = async (req, res) => {
   } catch (error) {
       res.status(500).json({ message: error.message });
   }
+};
+
+export const updateCardCode = async (req, res) => {
+  const { id, wsId, cardId } = req.params;
+  const { newCode } = req.body;
+  //console.log(id,wsId,cardId,newCode);
+  try {
+      const user = await User.findById(id);
+      if (!user) return res.status(404).send('User not found');
+
+      const workspace = user.ws.id(wsId);
+      if (!workspace) return res.status(404).send('Workspace not found');
+
+      const card = workspace.cards.id(cardId);
+      if (!card) return res.status(404).send('Card not found');
+
+      card.code = newCode;
+
+      await user.save();
+      res.status(200).json(user);
+  } catch (error) {
+      res.status(500).json({ message: error.message });
+  }
+  
 };
 export default getUserWorkspaces;

@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
 
 const cardSchema = mongoose.Schema({
-  title: { type: String, required: true },
-  language: { type: String, required: true }
+  title: { type: String,default:'new'},
+  language: { type: String, required: true },
+  code: {type:String,default:''}
 });
 
 const workspaceSchema = mongoose.Schema({
