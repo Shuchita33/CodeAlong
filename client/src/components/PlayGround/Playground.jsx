@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import './styles.css';
 import { BiArrowFromBottom, BiArrowToBottom } from "react-icons/bi";
 import CodeEditor from './CodeEditor';
-
+import {makeSubmission} from '../../service/service';
 const Playground = () => {
   const user=JSON.parse(localStorage.getItem('profile'));
   const userId=user?.result?._id;
@@ -10,6 +10,7 @@ const Playground = () => {
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
 
+  const[showLoader,setShowLoader]=useState(false);
 
   const importInput = (e) => {
     const file = e.target.files[0];
@@ -39,12 +40,40 @@ const Playground = () => {
     link.download = `output.txt`;
     link.click();
   }
+  const callback = ({ apiStatus, data, message }) => {
+    if (apiStatus === 'loading') {
+      setShowLoader(true);
+    } else if (apiStatus === 'error') {
+      setShowLoader(false);
+      setOutput("Something went wrong: " + message);
+    } else {
+      setShowLoader(false);
+      if (data.status.id === 3) {
+        // Execution successful
+        setOutput(atob(data.stdout));
+      } else if (data.status.id === 6) {
+        // Compilation error
+        setOutput("Compilation Error:\n" + atob(data.compile_output));
+      } else if (data.status.id === 5) {
+        // Runtime error
+        setOutput("Runtime Error:\n" + atob(data.stderr));
+      } else {
+        // Any other status
+        setOutput("Error: " + data.status.description);
+      }
+    }
+  }
+
+  const runCode = useCallback(({ code, language }) => {
+    makeSubmission({ code, language, input, callback });
+  }, [input]);
+  //recreates this function whenever there's change in input
 
   return (
     <div className='playground-container'>
       <div className='content-container'>
         <div className='editor-container'>
-          <CodeEditor/>
+          <CodeEditor runCode={runCode}/>
         </div>
         <div className='inputt-container'>
           <div className='inputt-header'>
@@ -68,6 +97,9 @@ const Playground = () => {
           <textarea readOnly value={output} onChange={(e) => setOutput(e.target.value)}></textarea>
         </div>
       </div>
+      {showLoader && <div className='fullpage-loader'>
+            <div className='loader'></div>
+        </div>}
     </div>
   )
 }

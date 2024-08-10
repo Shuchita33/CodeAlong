@@ -6,7 +6,7 @@ import { VscRunAll } from "react-icons/vsc";
 import {Editor} from '@monaco-editor/react';
 import { updateCardCode,getCardDetails,getData} from '../../api/api';
 
-const CodeEditor = () => {
+const CodeEditor = ({runCode}) => {
    const user=JSON.parse(localStorage.getItem('profile'));
    const userId=user?.result?._id;
 
@@ -138,7 +138,12 @@ const CodeEditor = () => {
         zIndex: 10
     }
   }
-
+  const onRunCode=()=>{
+    runCode({
+        code:codeRef.current,
+        language:lang,
+    })
+  }
   return (
     <div className='editor' style={isFullScreen ? styles.fullScreen : {}}>
         <div className='editor-header'>
@@ -173,7 +178,7 @@ const CodeEditor = () => {
             <label htmlFor='import'><BiImport/> Import Code</label>
             <input type='file' id='import' style={{display:'none'}} onChange={importCode}/>
             <button onClick={exportCode}><BiExport/> Export </button>
-            <button><VscRunAll/> Run </button>
+            <button onClick={onRunCode}><VscRunAll/> Run </button>
         </div>
     </div>
   )
