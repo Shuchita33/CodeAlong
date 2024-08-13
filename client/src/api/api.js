@@ -24,4 +24,7 @@ export const deleteCardFromWorkspace = (userId, wsId, cardId) => API.delete(`/us
 export const updateCardCode = (userId, wsId, cardId, newCode) => API.patch(`/user/${userId}/workspaces/${wsId}/cards/${cardId}/code`, { newCode });
 export const getCardDetails=(userId, wsId, cardId)=>API.get(`/user/${userId}/workspaces/${wsId}/cards/${cardId}/card`);
 
+
+export const createRoom = () => API.post('/createRoom');
+
 export default API;

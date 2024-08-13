@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom';
-import { FaPencilAlt } from "react-icons/fa";
 import { BiFullscreen, BiImport,BiExport } from "react-icons/bi";
 import { VscRunAll } from "react-icons/vsc";
 import {Editor} from '@monaco-editor/react';

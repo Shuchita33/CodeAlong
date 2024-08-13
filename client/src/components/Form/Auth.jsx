@@ -7,16 +7,16 @@ import * as api from '../../api/api';
 import toast from 'react-hot-toast';
 
 const Auth = () => {
-  const navigate = useNavigate();
-  const [isSignUp, setIsSignUp] = useState(true);
-  const [roomId,setRoomId]=useState('');
-  const [username,setUsername]=useState('');
+    const navigate = useNavigate();
+    const [isSignUp, setIsSignUp] = useState(true);
+    const [roomId,setRoomId]=useState('');
+    const [username,setUsername]=useState('');
 
-  const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
+    const [formData, setFormData] = useState({
+      fullName: '',
+      email: '',
+      password: '',
+      confirmPassword: ''
   });
 
   const handleSwitchMode = () => {
@@ -70,18 +70,29 @@ const Auth = () => {
     }
   };
 
-  const createRoom=(e)=>{
+  const createRoom=async(e)=>{
     e.preventDefault();
-        //
-    toast.success('Created a new room');
+    try {
+        const {data} = await api.createRoom();
+        console.log(data)
+        setRoomId(data.roomId);
+        toast.success('Created a new room');
+    } catch (err) {
+        toast.error('Could not create a new room');
+    }  
   }
 
   const joinRoom = () => {
-        //
+    if (!roomId || !username) {
+      toast.error('ROOM ID & username are required');
+      return;
+    }
+    alert("Joining")
   };
 
   const handleInputEnter = (e) => {
-        //
+    if (e.code === 'Enter') 
+      joinRoom();
   };
 
   return (
@@ -168,6 +179,7 @@ const Auth = () => {
               onChange={(e) => {setUsername(e.target.value)}}
               value={username}
               onKeyUp={handleInputEnter}
+              required
             />
             <button className="button" onClick={joinRoom}>
               Join
@@ -183,8 +195,7 @@ const Auth = () => {
             </span>
           </div>
       </div>
-    </div>
-    
+    </div>  
   );
 };
 
