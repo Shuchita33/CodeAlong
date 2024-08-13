@@ -4,10 +4,14 @@ import './styles.css';
 import { useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import * as api from '../../api/api';
+import toast from 'react-hot-toast';
 
 const Auth = () => {
   const navigate = useNavigate();
   const [isSignUp, setIsSignUp] = useState(true);
+  const [roomId,setRoomId]=useState('');
+  const [username,setUsername]=useState('');
+
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -66,6 +70,20 @@ const Auth = () => {
     }
   };
 
+  const createRoom=(e)=>{
+    e.preventDefault();
+        //
+    toast.success('Created a new room');
+  }
+
+  const joinRoom = () => {
+        //
+  };
+
+  const handleInputEnter = (e) => {
+        //
+  };
+
   return (
     <div className='container'>
       <form className='formWrapper' onSubmit={handleSubmit}>
@@ -76,8 +94,7 @@ const Auth = () => {
         <h5 style={{ margin: '1vh', fontSize: '3vh', background: 'transparent' }}>
           {isSignUp ? 'Sign Up' : 'Sign In'}
         </h5>
-        {isSignUp && (
-          <>
+        {isSignUp && (      
             <input
               type="text"
               id="fullName"
@@ -86,8 +103,7 @@ const Auth = () => {
               placeholder='Full Name'
               value={formData.fullName}
               onChange={handleChange}
-            />
-          </>
+            />         
         )}
         <input
           type="email"
@@ -132,7 +148,43 @@ const Auth = () => {
           {isSignUp ? 'Already have an account? Sign In' : 'Don\'t have an account? Sign Up'}
         </a>
       </form>
+     
+      <div className="formWrapper">
+      <h2 className='magic'>Join/Create Room</h2>
+        <h4 className="mainLabel">Paste invitation Room Id</h4>
+          <div className="inputGroup">
+            <input
+              type="text"
+              className="inputBox"
+              placeholder="ROOM ID"
+              onChange={(e) => {setRoomId(e.target.value)}}
+              value={roomId}
+              onKeyUp={handleInputEnter}
+            />
+            <input
+              type="text"
+              className="inputBox"
+              placeholder="USERNAME"
+              onChange={(e) => {setUsername(e.target.value)}}
+              value={username}
+              onKeyUp={handleInputEnter}
+            />
+            <button className="button" onClick={joinRoom}>
+              Join
+            </button>
+            <span className="createInfo">
+              Don't have an invite ?  &nbsp;
+            <a onClick={createRoom}
+              href=""
+              className="createNewBtn"
+            >
+            Create own Room
+            </a>
+            </span>
+          </div>
+      </div>
     </div>
+    
   );
 };
 
