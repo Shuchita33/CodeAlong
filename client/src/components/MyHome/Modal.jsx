@@ -131,15 +131,20 @@ const Model = ({ openModal, setOpenModal, wsId, cardId, getLists }) => {
             onChange={(event) => handleChange(event, 'title')}
           />
           {openModal==2 && (
-            <input
-            className='input'
-            placeholder='language'
-            type="text"
+            <select
+           
             ref={inputRef}
             value={enteredLang}
             onChange={(event) => handleChange(event, 'language')}
-          />
+          >
+            <option value="" disabled>Select language</option>
+            <option value="javascript">JavaScript</option>
+            <option value="python">Python</option>
+            <option value="java">Java</option>
+            <option value="c++">C++</option>
+          </select>
           )}
+  
 
           <FcOk style={{ height: '4vh', width: '4vh', cursor: 'pointer' }} onClick={handleSubmit} />
         </div>

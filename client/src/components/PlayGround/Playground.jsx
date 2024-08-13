@@ -40,9 +40,9 @@ const Playground = () => {
     link.download = `output.txt`;
     link.click();
   }
-  const callback = ({ apiStatus, data, message }) => {
+  const callback = useCallback(({ apiStatus, data, message }) => {
     if (apiStatus === 'loading') {
-      setShowLoader(true);
+        setShowLoader(true);
     } else if (apiStatus === 'error') {
       setShowLoader(false);
       setOutput("Something went wrong: " + message);
@@ -62,11 +62,11 @@ const Playground = () => {
         setOutput("Error: " + data.status.description);
       }
     }
-  }
+  }, []);
 
   const runCode = useCallback(({ code, language }) => {
-    makeSubmission({ code, language, input, callback });
-  }, [input]);
+    makeSubmission({ code, language, stdin: input, callback });
+  }, [input, callback]);
   //recreates this function whenever there's change in input
 
   return (

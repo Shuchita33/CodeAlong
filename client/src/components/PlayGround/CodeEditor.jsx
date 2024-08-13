@@ -13,7 +13,7 @@ const CodeEditor = ({runCode}) => {
    const [code,setCode]=useState('');
    const [theme, setTheme] = useState('vs-dark');
    const [lang,setLang]=useState('');
-   const [defLang, setdefLang]=useState('');
+   const [title, setTitle]=useState('');
 
    const [isFullScreen, setIsFullScreen]=useState(false);
 
@@ -24,17 +24,19 @@ const CodeEditor = ({runCode}) => {
    const getDefaultCode=async()=>{
         const { data } = await getCardDetails(userId, folderId, fileId);
         console.log(data);
+        setTitle(data.title)
         setLang(data.language);
         if (data.code === '') {
         setCode(fileExtension[data.language]?.defaultCode);
         } else {
         setCode(data.code);
         }
-  }
+    }
 
    useEffect(() => {
-        getDefaultCode(); 
-   }, [fileId]);
+        getDefaultCode();
+        codeRef.current=code;
+   }, [fileId,code]);
   
    const codeRef=useRef();
    const editorOptions={
@@ -139,17 +141,19 @@ const CodeEditor = ({runCode}) => {
     }
   }
   const onRunCode=()=>{
-    runCode({
-        code:codeRef.current,
-        language:lang,
-    })
+    if(codeRef.current)
+        runCode({
+            code:codeRef.current,
+            language:lang,
+        })
+    else{alert("Code not found")}
   }
   return (
     <div className='editor' style={isFullScreen ? styles.fullScreen : {}}>
         <div className='editor-header'>
             <div className='left'>
-                <b>Title</b>
-                <span className='icons'><FaPencilAlt/> </span>
+                <b>{title}</b>
+                {/* <span className='icons'><FaPencilAlt/> </span> */}
                 <button onClick={saveEditorCode}>Save Code</button>
             </div>
             <div className='right'>
