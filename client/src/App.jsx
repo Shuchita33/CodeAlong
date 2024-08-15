@@ -3,8 +3,9 @@ import Auth from './components/Form/Auth';
 import Playground from './components/PlayGround/Playground';
 import Home from './components/MyHome/Home';
 import { Toaster } from 'react-hot-toast';
-function App() {
+import Room from './components/Room/Room';
 
+function App() {
   return (
     <>
       <div>
@@ -24,6 +25,7 @@ function App() {
           <Route path='/' element={<Auth />} />     
           <Route path='/playground/:folderId/:fileId' element={<Playground />} />  
           <Route path='/home' element={<Home />} /> 
+          <Route path='/room/:roomId' element={<Room />} />
         </Routes>
       </BrowserRouter>
     </> 

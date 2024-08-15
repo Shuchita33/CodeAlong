@@ -88,6 +88,11 @@ const Auth = () => {
       return;
     }
     alert("Joining")
+    navigate(`/room/${roomId}`, {
+      state: {
+          username,
+      },
+  });
   };
 
   const handleInputEnter = (e) => {
