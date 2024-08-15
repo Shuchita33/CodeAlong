@@ -5,6 +5,7 @@ import Client from './Client.jsx';
 import './styles.css';
 import ACTIONS from '../../actionTypes.js';
 import toast from 'react-hot-toast';
+import RealtimeEditor from '../CodeEditor/RealtimeEditor.jsx';
 
 const Room = () => {
     const location = useLocation();
@@ -86,7 +87,7 @@ const Room = () => {
                     </button>
                 </div>
                 <div className='editorWrap'>
-                    
+                    <RealtimeEditor/>
                 </div>
             </div>
         </div>
