@@ -6,6 +6,9 @@ import userRouter from './routes/routes.js';
 import router from './routes/room.js';
 import http from 'http';
 import { Server } from 'socket.io';
+import ACTIONS from './actionTypes.js';
+import {joinRoom} from './controllers/socketController.js';
+
 dotenv.config();
 
 const app = express();
@@ -13,9 +16,14 @@ const server = http.createServer(app);
 const io = new Server(server);
 
 const PORT = process.env.PORT || 5000;
-io.on('connection', () => {
-  console.log("Socket connected ");
+
+const userSocketMap = {};
+io.on('connection', (socket) => {
+  //console.log("Socket connected ",socket.id);
+  socket.on(ACTIONS.JOIN, (data) => joinRoom(socket, io, userSocketMap, data));
+
 });
+
 app.use(cors());
 app.use(express.json());
 

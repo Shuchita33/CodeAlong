@@ -1,15 +1,19 @@
-import {React,useEffect, useRef, } from 'react';
+import {React, useEffect, useState, useRef, } from 'react';
 import { useParams,useNavigate,useLocation } from 'react-router-dom';
 import  initSocket from '../../socket.js';
 import Client from './Client.jsx';
 import './styles.css';
+import ACTIONS from '../../actionTypes.js';
+import toast from 'react-hot-toast';
 
 const Room = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const socketRef = useRef(null);
     const { roomId } = useParams();
-    console.log(roomId);
+    const [clients, setClients] = useState([]);
+
+    //console.log(roomId);
     useEffect(() => {
       const init = async () => {
           try {
@@ -18,6 +22,22 @@ const Room = () => {
                 console.log(err.message,err.description);
                 console.log(err.description);
               });
+
+              //emit join room event
+              socketRef.current.emit(ACTIONS.JOIN, {
+                roomId,
+                username: location.state?.username,
+             });
+
+             //listen the event emitted by server
+             socketRef.current.on(ACTIONS.JOINED, ({ clients, username, socketId }) => {
+              if (username !== location.state?.username) {
+                  toast.success(`${username} joined the room.`);
+              }
+              setClients(clients);
+               
+              });
+
           } catch (err) {
               console.error('Socket connection error:', err);
               navigate('/');
@@ -25,7 +45,7 @@ const Room = () => {
       };
 
       init();
-
+     
   }, [roomId, location.state?.username, navigate]);
 
   const copyRoomId=()=>{
@@ -41,7 +61,9 @@ const Room = () => {
                     <div className='asideInner'>
                         <h3>Connected</h3>
                         <div className='clientsList'>
-                            <Client username={location.state?.username}></Client>
+                        {clients?.map((client) => (
+                                <Client key={client.socketId} username={client.username} />
+                            ))}
                         </div>
                     </div>
                     <button className='btn' onClick={copyRoomId}>
