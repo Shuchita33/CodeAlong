@@ -7,7 +7,7 @@ import router from './routes/room.js';
 import http from 'http';
 import { Server } from 'socket.io';
 import ACTIONS from './actionTypes.js';
-import {joinRoom} from './controllers/socketController.js';
+import {joinRoom,disconnect} from './controllers/socketController.js';
 
 dotenv.config();
 
@@ -21,6 +21,7 @@ const userSocketMap = {};
 io.on('connection', (socket) => {
   //console.log("Socket connected ",socket.id);
   socket.on(ACTIONS.JOIN, (data) => joinRoom(socket, io, userSocketMap, data));
+  socket.on('disconnecting', () => disconnect(socket, io, userSocketMap));
 
 });
 

@@ -34,9 +34,16 @@ const Room = () => {
               if (username !== location.state?.username) {
                   toast.success(`${username} joined the room.`);
               }
-              setClients(clients);
-               
+              setClients(clients);              
               });
+
+              //disconnecting from server
+              socketRef.current.on(ACTIONS.DISCONNECTED, ({ socketId, username }) => {
+                toast.success(`${username} left the room.`);
+                setClients((prev) =>
+                    prev.filter((client) => client.socketId !== socketId)
+                );
+               });
 
           } catch (err) {
               console.error('Socket connection error:', err);
@@ -45,6 +52,11 @@ const Room = () => {
       };
 
       init();
+      return () => {
+        socketRef.current.off(ACTIONS.JOINED);
+        socketRef.current.off(ACTIONS.DISCONNECTED);
+        socketRef.current.disconnect();
+      };
      
   }, [roomId, location.state?.username, navigate]);
 
