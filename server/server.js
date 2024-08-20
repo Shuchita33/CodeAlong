@@ -7,7 +7,7 @@ import router from './routes/room.js';
 import http from 'http';
 import { Server } from 'socket.io';
 import ACTIONS from './actionTypes.js';
-import {joinRoom,disconnect} from './controllers/socketController.js';
+import {joinRoom,disconnect,handleCodeChange,syncCode} from './controllers/socketController.js';
 
 dotenv.config();
 
@@ -22,7 +22,8 @@ io.on('connection', (socket) => {
   //console.log("Socket connected ",socket.id);
   socket.on(ACTIONS.JOIN, (data) => joinRoom(socket, io, userSocketMap, data));
   socket.on('disconnecting', () => disconnect(socket, io, userSocketMap));
-
+  socket.on(ACTIONS.CODE_CHANGE, (data) => handleCodeChange(socket, data));
+  socket.on(ACTIONS.SYNC_CODE, (data) => syncCode(socket, io, data));
 });
 
 app.use(cors());

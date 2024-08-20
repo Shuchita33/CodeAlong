@@ -1,5 +1,5 @@
 import {React, useEffect, useState, useRef, } from 'react';
-import { useParams,useNavigate,useLocation } from 'react-router-dom';
+import { useParams,useNavigate,useLocation, useAsyncError } from 'react-router-dom';
 import  initSocket from '../../socket.js';
 import Client from './Client.jsx';
 import './styles.css';
@@ -13,6 +13,7 @@ const Room = () => {
     const socketRef = useRef(null);
     const { roomId } = useParams();
     const [clients, setClients] = useState([]);
+    const codeRef=useRef(null);
 
     //console.log(roomId);
     useEffect(() => {
@@ -32,12 +33,12 @@ const Room = () => {
 
              //listen the event emitted by server
              socketRef.current.on(ACTIONS.JOINED, ({ clients, username, socketId }) => {
-              if (username !== location.state?.username) {
-                  toast.success(`${username} joined the room.`);
-              }
-              setClients(clients);              
+                if (username !== location.state?.username) {
+                    toast.success(`${username} joined the room.`);
+                }
+                setClients(clients);         
               });
-
+              
               //disconnecting from server
               socketRef.current.on(ACTIONS.DISCONNECTED, ({ socketId, username }) => {
                 toast.success(`${username} left the room.`);
@@ -87,7 +88,12 @@ const Room = () => {
                     </button>
                 </div>
                 <div className='editorWrap'>
-                    <RealtimeEditor/>
+                    <RealtimeEditor 
+                        socketRef={socketRef}
+                        roomId={roomId}
+                        OnChangeCode={(code) => {
+                            codeRef.current = code;
+                        }}/>
                 </div>
             </div>
         </div>

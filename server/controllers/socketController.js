@@ -34,3 +34,12 @@ export const disconnect = (socket, io, userSocketMap) => {
     delete userSocketMap[socket.id];
     socket.leave();
 };
+
+export const handleCodeChange = (socket, { roomId, code }) => { 
+    socket.in(roomId).emit(ACTIONS.CODE_CHANGE, { code });
+};
+
+export const syncCode = (socket, io, { socketId, code }) => {
+    //console.log(code);
+    io.to(socketId).emit(ACTIONS.CODE_CHANGE, { code });
+};
