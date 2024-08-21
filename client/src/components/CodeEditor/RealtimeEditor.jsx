@@ -11,6 +11,7 @@ const RealtimeEditor = ({ socketRef, roomId, OnChangeCode }) => {
     const [isFullScreen, setIsFullScreen] = useState(false);
     const editorRef = useRef(null);
     const codeRef = useRef(null);
+    const isRemoteChange = useRef(false); //to distinguish between the changes coming from server and the locally made changes while typing
 
     useEffect(() => {
         //console.log(socketRef.current)
@@ -19,6 +20,7 @@ const RealtimeEditor = ({ socketRef, roomId, OnChangeCode }) => {
                 if (code !== null && editorRef.current) {
                     const currentCode = editorRef.current.getValue();
                     if (code !== currentCode) {
+                        isRemoteChange.current = true;
                         editorRef.current.setValue(code);
                     }
                 }
@@ -37,10 +39,10 @@ const RealtimeEditor = ({ socketRef, roomId, OnChangeCode }) => {
     
         editor.onDidChangeModelContent(() => {
             const newCode = editor.getValue();
-    
-            // Only proceed if the code has actually changed
-            if (codeRef.current !== newCode) {
-                // Update state and references
+            if (isRemoteChange.current) {
+                isRemoteChange.current = false;  
+            } 
+            else{
                 setCode(newCode);
                 codeRef.current = newCode;
                 OnChangeCode(newCode);
