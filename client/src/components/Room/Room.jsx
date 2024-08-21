@@ -62,11 +62,17 @@ const Room = () => {
      
   }, [roomId, location.state?.username, navigate]);
 
-  const copyRoomId=()=>{
-
-  }
+  const copyRoomId = async () => {
+    try {
+        await navigator.clipboard.writeText(roomId);
+        toast.success('Room ID has been copied to your clipboard');
+    } catch (err) {
+        toast.error('Could not copy the Room ID');
+        console.error(err);
+    }
+};
   const leaveRoom=()=>{
-
+    navigate('/');
   }
   return (
     <div className='room'>
