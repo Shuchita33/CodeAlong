@@ -36,7 +36,11 @@ const Room = () => {
                 if (username !== location.state?.username) {
                     toast.success(`${username} joined the room.`);
                 }
-                setClients(clients);         
+                setClients(clients);
+                socketRef.current.emit(ACTIONS.SYNC_CODE, {
+                    code: codeRef.current,
+                    socketId,
+                });           
               });
               
               //disconnecting from server
