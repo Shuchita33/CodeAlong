@@ -3,6 +3,7 @@ import { BiFullscreen, BiImport, BiExport } from "react-icons/bi";
 import { Editor } from '@monaco-editor/react';
 import './styles.css';
 import ACTIONS from '../../actionTypes';
+import { toast } from 'react-hot-toast';
 
 const RealtimeEditor = ({ socketRef, roomId, OnChangeCode }) => {
     const [code, setCode] = useState('');
@@ -69,7 +70,17 @@ const RealtimeEditor = ({ socketRef, roomId, OnChangeCode }) => {
     const exportCode = () => {
         const codeVal = codeRef.current?.trim();
         if (!codeVal) {
-            alert("Please enter some code before exporting.");
+            toast((t) => (
+                <span>
+                  Enter some code before exporting
+                  <button style={{borderRadius:'50%',padding:'1vh', border: 'none', marginLeft:'1vh',background:'#5a9a4a',color:'white'}} onClick={() => toast.dismiss(t.id)}>
+                    OK
+                  </button>
+                </span>
+              ),{
+                position:'top-center',
+                duration:3000
+              });
             return;
         }
         const codeBlob = new Blob([codeVal], { type: "text/plain" });

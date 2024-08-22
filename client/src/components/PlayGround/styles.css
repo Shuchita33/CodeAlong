@@ -11,10 +11,6 @@
     display: grid;
     grid-template-columns: 3fr 2fr;
 }
-.logo{
-    height: 100px;
-    border-radius: 50%;
-}
 .headerr-container{
     height: 7vh;
     display: flex;

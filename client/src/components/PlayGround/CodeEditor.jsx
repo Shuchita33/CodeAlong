@@ -4,6 +4,7 @@ import { BiFullscreen, BiImport,BiExport } from "react-icons/bi";
 import { VscRunAll } from "react-icons/vsc";
 import {Editor} from '@monaco-editor/react';
 import { updateCardCode,getCardDetails,getData} from '../../api/api';
+import { toast } from 'react-hot-toast';
 
 const CodeEditor = ({runCode}) => {
    const user=JSON.parse(localStorage.getItem('profile'));
@@ -35,7 +36,7 @@ const CodeEditor = ({runCode}) => {
    useEffect(() => {
         getDefaultCode();
         codeRef.current=code;
-   }, [fileId,code]);
+   }, [fileId]);
   
    const codeRef=useRef();
    const editorOptions={
@@ -71,9 +72,13 @@ const CodeEditor = ({runCode}) => {
    }
 
    const onCodeChange=(newCode)=>{
-    //console.log(newCode);
-    codeRef.current=newCode;
-   }
+        //console.log(newCode);
+        codeRef.current=newCode;
+    }
+   useEffect(()=>{
+    onCodeChange(code);
+   },[code])
+   
    const onLangChange=(e)=>{
         const newLang = e.target.value;
         setLang(newLang);
@@ -99,13 +104,33 @@ const CodeEditor = ({runCode}) => {
             }
         }
         else{
-            alert("Please choose program file")
+            toast((t) => (
+                <span>
+                  Please choose a program file
+                  <button style={{borderRadius:'50%',padding:'1vh', border: 'none', marginLeft:'1vh',background:'#5a9a4a',color:'white'}} onClick={() => toast.dismiss(t.id)}>
+                    OK
+                  </button>
+                </span>
+              ),{
+                position:'top-center',
+                duration:3000
+              });
         }
   }
   const exportCode=()=>{
         const codeVal=codeRef.current?.trim();
         if(!codeVal){
-            alert("Please enter some code before exporting.");
+            toast((t) => (
+                <span>
+                  Enter some code before exporting
+                  <button style={{borderRadius:'50%',padding:'1vh', border: 'none', marginLeft:'1vh',background:'#5a9a4a',color:'white'}} onClick={() => toast.dismiss(t.id)}>
+                    OK
+                  </button>
+                </span>
+              ),{
+                position:'top-center',
+                duration:3000
+              });
             return;
         }
         //create a blob/instant file in memory
@@ -125,7 +150,9 @@ const CodeEditor = ({runCode}) => {
         console.log(userId,folderId,fileId,newcode);
         const res=await updateCardCode(userId,folderId,fileId,newcode)
         console.log(res);
-        alert("Code saved successfully")
+        toast.success("Code saved successfully",{
+            position:'top-center'
+        })
         // const newdata=await getData(userId);
         // console.log(newdata.data);
   }
@@ -145,7 +172,9 @@ const CodeEditor = ({runCode}) => {
             code:codeRef.current,
             language:lang,
         })
-    else{alert("Code not found")}
+    else{toast.error("Code not found",{
+        position:'top-center'
+    })}
   }
   return (
     <div className='editor' style={isFullScreen ? styles.fullScreen : {}}>

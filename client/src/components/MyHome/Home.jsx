@@ -7,6 +7,7 @@ import { FcOpenedFolder } from 'react-icons/fc'
 import logo from '../../assets/logoCode.png';
 import Modal from './Modal';
 import {getData,deleteWorkspace,deleteCardFromWorkspace} from '../../api/api';
+import { toast } from 'react-hot-toast';
 
 const Home = () => {
     const navigate=useNavigate();
@@ -28,12 +29,28 @@ const Home = () => {
     },[])
     
     const deleteWs=async(wsId)=>{
-        const confirmDelete = window.confirm("Are you sure you want to delete this folder?");
-        if (!confirmDelete) return;
-        await deleteWorkspace(userId,wsId);
-        console.log(userId,wsId);
-        alert('Deleted Folder');
-        getList();
+        toast((t) => (
+            <div>
+              <p style={{marginBottom:'1vh'}}>Are you sure you want to delete this folder?</p>
+              <button style={{borderRadius:'50%',padding:'1vh', border: 'none', marginLeft:'1vh',background:'#5a9a4a',color:'white'}} 
+                      onClick={() => {toast.dismiss(t.id);return;}}>
+                No
+              </button>
+              <button style={{borderRadius:'50%',padding:'1vh', border: 'none', marginLeft:'1vh',background:'#5a9a4a',color:'white'}} 
+                      onClick={async() => {
+                        await deleteWorkspace(userId,wsId);
+                        console.log(userId,wsId);
+                        toast.success('Deleted Folder');
+                        getList();
+                        toast.dismiss(t.id);
+                      }}>
+                Yes
+              </button>
+            </div>
+          ),{
+            position:'top-center',
+            duration:Infinity
+          });
     }
     const editWsname = (wsId) => {
         setCurrentWsId(wsId);
@@ -56,11 +73,27 @@ const Home = () => {
     };
 
     const deleteCard = async (wsId, cardId) => {
-        console.log(wsId,cardId)
-        const confirmDelete = window.confirm("Are you sure you want to delete this card?");
-        if (!confirmDelete) return;
-        await deleteCardFromWorkspace(userId, wsId, cardId);
-        getList();
+        toast((t) => (
+            <div>
+              <p style={{marginBottom:'1vh'}}>Are you sure you want to delete this Workspace?</p>
+              <button style={{borderRadius:'50%',padding:'1vh', border: 'none', marginLeft:'1vh',background:'#5a9a4a',color:'white'}} 
+                      onClick={() => {toast.dismiss(t.id);return;}}>
+                No
+              </button>
+              <button style={{borderRadius:'50%',padding:'1vh', border: 'none', marginLeft:'1vh',background:'#5a9a4a',color:'white'}} 
+                      onClick={async() => {
+                        await deleteCardFromWorkspace(userId, wsId, cardId);
+                        toast.success('Deleted Workspace');
+                        getList();
+                        toast.dismiss(t.id);
+                      }}>
+                Yes
+              </button>
+            </div>
+          ),{
+            position:'top-center',
+            duration:Infinity
+          });
     };
   return (
     <div className="home">

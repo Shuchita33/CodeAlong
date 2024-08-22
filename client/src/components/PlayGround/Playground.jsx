@@ -3,6 +3,8 @@ import './styles.css';
 import { BiArrowFromBottom, BiArrowToBottom } from "react-icons/bi";
 import CodeEditor from './CodeEditor';
 import {makeSubmission} from '../../service/service';
+import { toast } from 'react-hot-toast';
+
 const Playground = () => {
   const user=JSON.parse(localStorage.getItem('profile'));
   const userId=user?.result?._id;
@@ -23,14 +25,28 @@ const Playground = () => {
         setInput(importedCode);
       }
     } else {
-      alert("Please choose a program file");
+      toast((t) => (
+        <span>
+          Please choose a program file
+          <button style={{borderRadius:'50%',padding:'1vh', border: 'none', marginLeft:'1vh',background:'#5a9a4a',color:'white'}} onClick={() => toast.dismiss(t.id)}>
+            OK
+          </button>
+        </span>
+      ));
     }
   }
 
   const exportOutput = () => {
     const outVal = output.trim();
     if (!outVal) {
-      alert("No Output available.");
+      toast((t) => (
+        <span>
+          No Output available.
+          <button style={{borderRadius:'50%',padding:'1vh', border: 'none', marginLeft:'1vh',background:'#5a9a4a',color:'white'}} onClick={() => toast.dismiss(t.id)}>
+            OK
+          </button>
+        </span>
+      ));
       return;
     }
     const outBlob = new Blob([outVal], { type: "text/plain" });

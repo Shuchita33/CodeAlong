@@ -44,8 +44,15 @@ const Auth = () => {
       console.log(data);
       localStorage.setItem('profile', JSON.stringify(data));
       navigate('/home');
+      toast.success("Signed in successfully",{
+        position:'top-center',
+        duration:2000
+      })
     } catch (error) {
-      alert(error?.response?.data?.message);
+      toast.error(error?.response?.data?.message || "Some error occured",{
+        position:'top-center', 
+        duration:2000
+      });
     }
   };
 
@@ -56,8 +63,15 @@ const Auth = () => {
       console.log(data);
       localStorage.setItem('profile', JSON.stringify(data));
       navigate('/home');
+      toast.success("Signed up successfully",{
+        position:'top-center',
+        duration:2000
+      })
     } catch (error) {
-      alert(error?.response?.data?.message);
+      toast.error(error?.response?.data?.message || "Some error occured",{
+        position:'top-center', 
+        duration:2000
+      });
     }
   };
 
@@ -87,7 +101,9 @@ const Auth = () => {
       toast.error('ROOM ID & username are required');
       return;
     }
-    alert("Joining")
+    toast.success("Welcome to the Room",{
+      position:'top-center'
+    })
     navigate(`/room/${roomId}`, {
       state: {
           username,
