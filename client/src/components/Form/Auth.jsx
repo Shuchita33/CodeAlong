@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import logo from '../../assets/logoCode.png';
+import Navbar from '../Navbar/Navbar';
 import './styles.css';
 import { useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
@@ -11,7 +11,8 @@ const Auth = () => {
     const [isSignUp, setIsSignUp] = useState(true);
     const [roomId,setRoomId]=useState('');
     const [username,setUsername]=useState('');
-
+    const user=JSON.parse(localStorage.getItem('profile'));
+    
     const [formData, setFormData] = useState({
       fullName: '',
       email: '',
@@ -117,13 +118,10 @@ const Auth = () => {
   };
 
   return (
+    <><Navbar/>
     <div className='container'>
-      <form className='formWrapper' onSubmit={handleSubmit}>
-        <div className='icon'>
-          <img src={logo} alt="logo" />
-          <h1 className='magic'>CodeAlong</h1>
-        </div>
-        <h5 style={{ margin: '1vh', fontSize: '3vh', background: 'transparent' }}>
+      {!user && <form id='login' className='formWrapper' onSubmit={handleSubmit}>
+        <h5 className='magic' >
           {isSignUp ? 'Sign Up' : 'Sign In'}
         </h5>
         {isSignUp && (      
@@ -179,9 +177,9 @@ const Auth = () => {
         <a onClick={handleSwitchMode}>
           {isSignUp ? 'Already have an account? Sign In' : 'Don\'t have an account? Sign Up'}
         </a>
-      </form>
+      </form>}
      
-      <div className="formWrapper">
+      <div id='join' className="formWrapper">
       <h2 className='magic'>Join/Create Room</h2>
         <h4 className="mainLabel">Paste invitation Room Id</h4>
           <div className="inputGroup">
@@ -217,6 +215,7 @@ const Auth = () => {
           </div>
       </div>
     </div>  
+    </>
   );
 };
 

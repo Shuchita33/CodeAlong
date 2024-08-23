@@ -179,9 +179,7 @@ body{
 
 .modal-content{
     background-color: var(--formcolor);
-    padding: 1em;
-    width: 35%;
-    min-width: 300px;
+    padding: 2vh;
     border-radius: 1vh;
 }
 
@@ -201,11 +199,12 @@ body{
 }
 
 .input-container{
+    width: fit-content;
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    padding: 1rem 0;
+    padding: 1vh;
     gap: 0.75rem;   
 }
 

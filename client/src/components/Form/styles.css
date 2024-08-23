@@ -18,17 +18,7 @@
     background-clip: text;
     -webkit-text-fill-color: rgba(254, 254, 254, 0);
 }
-.icon{
-    background: var(--formcolor);
-    margin: 2vh;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-}
-.icon img{
-    background: var(--formcolor);
-    height: 6vh; width: 6vh;
-}
+
 .mainLabel{
     background: var(--formcolor);
     color: black;
@@ -38,7 +28,7 @@
     display: flex;
     flex-direction: column; justify-items: center;
     background: var(--formcolor);
-    padding: 20px;
+    padding: 3vh;
     border-radius: 10px;
     border: solid 1vh var(--btnhover);
     min-width: 30%;
@@ -53,7 +43,6 @@
 
 .inputBox { 
     padding: 1vh;
-   
     outline: none;
     border: 2px solid var(--btnhover);
     margin-bottom: 14px;
@@ -80,5 +69,7 @@
 a{
     background: var(--formcolor);
     cursor: pointer;
+    color:black;
+    text-decoration: underline;
 }
 

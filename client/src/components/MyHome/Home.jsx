@@ -6,6 +6,7 @@ import { BiEditAlt } from 'react-icons/bi'
 import { FcOpenedFolder } from 'react-icons/fc'
 import logo from '../../assets/logoCode.png';
 import Modal from './Modal';
+import Navbar from '../Navbar/Navbar';
 import {getData,deleteWorkspace,deleteCardFromWorkspace} from '../../api/api';
 import { toast } from 'react-hot-toast';
 
@@ -13,12 +14,17 @@ const Home = () => {
     const navigate=useNavigate();
     const [openModal, setOpenModal] = useState({ state: false});
     const user=JSON.parse(localStorage.getItem('profile'));
+
+    useEffect(()=>{
+      if(!user) {navigate('/'); return;}
+    },[])
+    
     const userId=user?.result?._id;
     const [m,setM]=useState(1);
     const [allWs,setWs]=useState([]);
     const [currentWsId, setCurrentWsId] = useState(null);
     const [currentCardId, setCurrentCardId] = useState(null);
-
+    
     const getList=async()=>{
         const list=await getData(userId);
         //console.log(list.data);
@@ -96,6 +102,7 @@ const Home = () => {
           });
     };
   return (
+    <><Navbar/>
     <div className="home">
         <div className="header">
                 <h3 className="heading">
@@ -105,7 +112,7 @@ const Home = () => {
                     onClick={() => {setM(1); setOpenModal({ state: true})}}
                 > <span>+</span> New Folder</div>        
         </div>
-        {
+        {allWs.length==0?<><h2 style={{color:'white'}}>No existing folders.Try creating one.</h2></>:
             allWs.map((ele)=>(
                 <div className='folder-card' key={ele._id}>
                     <div className="f-header">
@@ -150,7 +157,8 @@ const Home = () => {
                   getLists={getList}
                 />
               )}     
-    </div>                        
+    </div>   
+    </>                     
   )
 }
 
