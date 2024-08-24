@@ -145,13 +145,6 @@ body{
     margin-right: 1rem;
 }
 
-@media (max-width: 425px) {
-    .logo {
-        width: 50px;
-        margin-right: 0.5rem;
-    }
-}
-
 .folder-icons {
     display: flex;
     align-items: center;
@@ -212,4 +205,20 @@ body{
     flex-grow: 1;
     height: 1.5rem;
     outline: 0;
+}
+
+@media screen and (max-width:500px) {
+    .ws-cards{
+        grid-template-columns: none;
+        gap:1rem;
+    }
+    .f-add-button{
+        font-size: 0px;
+    }
+    .input-container {
+        gap: 1vh;
+        flex-direction: column;
+        justify-content: center;
+        align-items: baseline;
+    }
 }

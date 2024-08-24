@@ -103,13 +103,13 @@ const RealtimeEditor = ({ socketRef, roomId, OnChangeCode }) => {
             width: '100vw'
         },
         minimise: {
-            width: '80vw'
-        }
+            width:'80vw'
+        },
     };
 
     return (
-        <div className='editor' style={isFullScreen ? styles.fullScreen : styles.minimise}>
-            <div className='editor-header'>
+        <div className='rt-editor' style={isFullScreen ? styles.fullScreen : styles.minimise}>
+            <div className='rt-editor-header'>
                 <div className='right'>
                     <select onChange={onLangChange} value={lang}>
                         <option value="cpp">cpp</option>

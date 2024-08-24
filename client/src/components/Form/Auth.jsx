@@ -124,6 +124,7 @@ const Auth = () => {
         <h5 className='magic' >
           {isSignUp ? 'Sign Up' : 'Sign In'}
         </h5>
+        <div className="inputGroup">
         {isSignUp && (      
             <input
               type="text"
@@ -177,6 +178,7 @@ const Auth = () => {
         <a onClick={handleSwitchMode}>
           {isSignUp ? 'Already have an account? Sign In' : 'Don\'t have an account? Sign Up'}
         </a>
+        </div>
       </form>}
      
       <div id='join' className="formWrapper">

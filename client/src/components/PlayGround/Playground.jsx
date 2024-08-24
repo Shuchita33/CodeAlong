@@ -91,6 +91,8 @@ const Playground = () => {
         <div className='editor-container'>
           <CodeEditor runCode={runCode}/>
         </div>
+      </div>
+        <div className='in-out-container'>
         <div className='inputt-container'>
           <div className='inputt-header'>
             <b>Input :</b>

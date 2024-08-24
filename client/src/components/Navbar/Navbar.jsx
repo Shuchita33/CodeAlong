@@ -18,11 +18,11 @@ const Navbar = () => {
   return (
     <>
     <div className='navbar'>
-        <div className='app-icon'>
+        <div className='app-icon' style={{cursor:'pointer'}} onClick={()=>navigate('/')}>
           <img src={logo} alt="logo" />
           <h1 className='magic'>CodeAlong</h1>
         </div>
-        <div>
+        <div className='button-container'>
            <button href="#login" className="menubuts" onClick={handleLogout}>{!login?'Login/SignUp':'Logout'}</button>
            <button href='#join' className="menubuts" onClick={() => {if(login) window.open('/', '_blank')}}>Join Room</button>   
            <button className="menubuts">About Us</button> 

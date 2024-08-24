@@ -18,6 +18,9 @@
     height: 6vh;
     width: 6vh;
 }
+.button-container{
+    display: flex; justify-content: center;
+}
 .menubuts{
     margin:7px;
     background-color:transparent;
@@ -54,4 +57,21 @@
 @keyframes animate {
     0%{background-position: 0 0;}
     0%{background-position: 400% 0;}
+}
+
+@media screen and (max-width: 700px) {
+    .app-icon{
+        width: 10%;
+    }
+    .app-icon .magic{
+        display: none;
+    }
+}
+@media screen and (max-width:400px) {
+    .menubuts{
+        font-size: 2.75vh;
+    }
+    .app-icon img{
+        height: 5vh; width: 5vh;
+    }
 }

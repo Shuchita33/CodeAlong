@@ -24,11 +24,14 @@ const Home = () => {
     const [allWs,setWs]=useState([]);
     const [currentWsId, setCurrentWsId] = useState(null);
     const [currentCardId, setCurrentCardId] = useState(null);
-    
+    const[showLoader,setShowLoader]=useState(false);
+
     const getList=async()=>{
+        setShowLoader(true);
         const list=await getData(userId);
         //console.log(list.data);
         setWs(list.data);
+        setShowLoader(false);
     }
     useEffect(()=>{
         getList();
@@ -62,7 +65,7 @@ const Home = () => {
         setCurrentWsId(wsId);
         setM(3);
         setOpenModal({ state: true });
-        getList();
+        //getList();
       };
 
     const addCard = (wsId) => {
@@ -112,7 +115,10 @@ const Home = () => {
                     onClick={() => {setM(1); setOpenModal({ state: true})}}
                 > <span>+</span> New Folder</div>        
         </div>
-        {allWs.length==0?<><h2 style={{color:'white'}}>No existing folders.Try creating one.</h2></>:
+        {showLoader ? <div className='fullpage-loader'>
+            <div className='loader'></div>
+        </div>:
+        (allWs.length==0?<><h2 style={{color:'white'}}>No existing folders.Try creating one.</h2></>:
             allWs.map((ele)=>(
                 <div className='folder-card' key={ele._id}>
                     <div className="f-header">
@@ -145,7 +151,7 @@ const Home = () => {
                     ))} 
                     </div>             
                 </div>
-            ))
+            )))
         }     
         {openModal.state && (
             //this is used to pass props from children to parent to update parent component upon updation caused by child component

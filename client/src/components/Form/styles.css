@@ -31,7 +31,7 @@
     padding: 3vh;
     border-radius: 10px;
     border: solid 1vh var(--btnhover);
-    min-width: 30%;
+    min-width: 30vw;
 }
 
 .inputGroup {
@@ -72,4 +72,51 @@ a{
     color:black;
     text-decoration: underline;
 }
-
+@media screen and (max-width: 900px) {
+   .container{
+    flex-direction: column;
+    gap:10vh;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10vh; padding-bottom: 10vh;
+   }
+   .formWrapper{
+    width: 40vw;
+   }
+}
+@media screen and (max-width: 750px) {
+    .container{
+     flex-direction: column;
+     gap:10vh;
+     justify-content: space-between;
+     align-items: center;
+     padding-top: 10vh; padding-bottom: 10vh;
+    }
+    .formWrapper{
+     min-width: 60vw;
+     padding: 2vh;
+    }
+ }
+@media screen and (max-width: 500px) {
+    .formWrapper {
+        min-width: 70vw;
+        padding: 2vh;
+    }
+    .inputBox {
+        padding: 0.75vh;
+        margin-bottom: 1.5vh;
+        font-size: 15px;
+    }
+    .magic{
+        font-size: 1.5em;
+    }
+    .button{
+        padding: 1.5vh;
+        width: auto;
+    }
+}
+@media screen and (max-width:400px) {
+    .formWrapper{
+        min-width: 80vw;
+    }
+}

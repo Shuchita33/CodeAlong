@@ -90,12 +90,14 @@ const Room = () => {
                             ))}
                         </div>
                     </div>
-                    <button className='btn' onClick={copyRoomId}>
-                        Copy ROOM ID
-                    </button>
-                    <button className='leaveBtn' onClick={leaveRoom}>
-                        Leave
-                    </button>
+                    <div className='rt-buttons'>
+                        <button className='btn' onClick={copyRoomId}>
+                            Copy ROOM ID
+                        </button>
+                        <button className='leaveBtn' onClick={leaveRoom}>
+                            Leave
+                        </button>
+                    </div>  
                 </div>
                 <div className='editorWrap'>
                     <RealtimeEditor 

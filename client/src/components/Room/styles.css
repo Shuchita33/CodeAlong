@@ -6,7 +6,8 @@
 }
 .mainWrap {
     display: grid;
-    grid-template-columns: 20vw 1fr;
+    grid-template-columns: 1fr 1fr;
+    height: 100vh;
 }
 
 .aside {
@@ -40,7 +41,10 @@
 .userName {
     margin-top: 10px;
 }
-
+.rt-buttons{
+    display: flex; flex-direction: column;
+    gap: 1vh;
+}
 .btn,.leaveBtn{
     border: none;
     padding: 1vh;
@@ -60,12 +64,15 @@
     background: var(--btnhover);
 }
 
-.CodeMirror {
-    min-height: 100vh;
-    font-size: 20px;
-    line-height: 1.6;
-    padding-top: 20px;
-} 
-.editorWrap{
-    height: 100vh;
+@media screen and (max-width:500px) {
+    .mainWrap {
+        display: inline-block;
+        height: 100vh; width: 100vw;
+    }
+    .aside{
+        flex-direction: row;
+    }
+    .btn,.leaveBtn{
+        font-size: small;
+    }
 }
