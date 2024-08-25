@@ -221,4 +221,7 @@ body{
         justify-content: center;
         align-items: baseline;
     }
+    .folder-card{
+        width: 90%;
+    }
 }

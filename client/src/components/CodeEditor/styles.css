@@ -47,7 +47,7 @@
     border-radius: 5px;
     margin-left: 2vh;
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 400px) {
     .rt-editor{
         width: 100vw !important;
         height: 100vh;
