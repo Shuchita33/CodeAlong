@@ -8,7 +8,7 @@ const initSocket = async () => {
         transports: ['websocket'],
     };
     
-    return io('http://localhost:5000', options);
+    return io('https://codealong-1npm.onrender.com/', options);
 };
 
 export default initSocket;
