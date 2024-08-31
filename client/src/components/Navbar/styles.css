@@ -32,7 +32,12 @@
     border: none; 
     font-weight: 400;
   }
-  
+
+.menubuts a{
+    background: transparent;
+    color: var(--formcolor);
+    text-decoration: none;
+}
 .menubuts:hover{
     background: var(--card1);
     letter-spacing: 0.1vh ;

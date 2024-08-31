@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import * as api from '../../api/api';
 import toast from 'react-hot-toast';
+import Footer from '../Footer/Footer';
 
 const Auth = () => {
     const navigate = useNavigate();
@@ -119,8 +120,8 @@ const Auth = () => {
 
   return (
     <><Navbar/>
-    <div className='container'>
-      {!user && <form id='login' className='formWrapper' onSubmit={handleSubmit}>
+    <div className='container' id='login'>
+      {!user && <form className='formWrapper' onSubmit={handleSubmit}>
         <h5 className='magic' >
           {isSignUp ? 'Sign Up' : 'Sign In'}
         </h5>
@@ -217,6 +218,7 @@ const Auth = () => {
           </div>
       </div>
     </div>  
+    <Footer/>
     </>
   );
 };

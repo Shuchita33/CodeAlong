@@ -23,9 +23,9 @@ const Navbar = () => {
           <h1 className='magic'>CodeAlong</h1>
         </div>
         <div className='button-container'>
-           <button href="#login" className="menubuts" onClick={handleLogout}>{!login?'Login/SignUp':'Logout'}</button>
-           <button href='#join' className="menubuts" onClick={() => {if(login) window.open('/', '_blank')}}>Join Room</button>   
-           <button className="menubuts">About Us</button> 
+           <button className="menubuts" onClick={handleLogout}><a href="#login">{!login?'Login/SignUp':'Logout'}</a></button>
+           <button className="menubuts" onClick={() => {if(login) window.open('/', '_blank')}}><a  href='#join'>Join Room</a></button>   
+           <button  className="menubuts"><a href='#about'>About Us</a></button> 
         </div>   
     </div>
     <div className="navgrad"></div>
